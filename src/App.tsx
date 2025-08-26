@@ -92,10 +92,11 @@ function App() {
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
           maxWidth: "1200px",
           margin: "0 auto",
-          padding: "20px",
+          padding: "0",
           background: "#fff",
-          minHeight: "100vh",
+          minHeight: "100svh",
           overflowX: "hidden",
+          overflowY: "auto",
         }}
       >
         <Routes>
@@ -233,24 +234,6 @@ function App() {
             />
           </section>
         )}
-
-        <footer
-          style={{
-            textAlign: "center",
-            marginTop: "4px",
-            padding: "10px 8px",
-            background: "#000",
-            borderRadius: "16px",
-            boxShadow: "none",
-            color: "#fff",
-            width: "100%",
-            maxWidth: "100%",
-          }}
-        >
-          <p style={{ margin: "0", fontSize: "1rem", fontWeight: 500 }}>
-            Claudia Echavarry Estilista - {new Date().getFullYear()}
-          </p>
-        </footer>
       </div>
     </BrowserRouter>
   );

@@ -12,20 +12,21 @@ const Home: React.FC = () => {
     minHeight: "100vh",
     background: "#fff",
     display: "flex",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
-    padding: "32px 8px 0 8px",
+    padding: "12px 8px 0 8px",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    overflowX: "hidden" as "hidden",
   };
 
   const cardStyle = {
     backgroundColor: "#fff",
     borderRadius: "24px",
-    padding: "32px 20px 24px 20px",
+    padding: "20px 12px 16px 12px",
     boxShadow: "none",
     textAlign: "center" as const,
-    maxWidth: "420px",
+    maxWidth: "380px",
     width: "100%",
     margin: "0 auto",
     transform: "none",
@@ -90,10 +91,25 @@ const Home: React.FC = () => {
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
-        <h1 style={titleStyle}>TURNOS</h1>
-        <p style={subtitleStyle}>
-Claudia Echavarry         </p>
-
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <h1 style={{ ...titleStyle, textAlign: "center" }}>TURNOS</h1>
+          <p
+            style={{
+              ...subtitleStyle,
+              textAlign: "center",
+              marginBottom: "40px",
+            }}
+          >
+            Claudia Echavarry
+          </p>
+        </div>
         <div style={buttonContainerStyle}>
           <button
             style={getButtonStyle("ver")}
