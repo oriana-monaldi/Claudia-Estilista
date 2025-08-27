@@ -583,7 +583,7 @@ export function VerTurnos() {
                     marginBottom: "16px",
                   }}
                 >
-                  <span style={{ fontSize: "16px" }}>📱</span>
+                  <span style={{ fontSize: "16px" }}></span>
                   <span
                     style={{
                       fontSize: "15px",
