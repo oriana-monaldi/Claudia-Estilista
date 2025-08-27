@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
 import { updateTurno } from "../assets/utils/localStorageTurnos";
+import Swal from "sweetalert2";
 
 interface Props {
   turno: Turno;
@@ -27,14 +28,37 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "telefono") {
+      const value = e.target.value.replace(/[^0-9]/g, "");
+      setForm({ ...form, telefono: value });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const fechaTurno = new Date(form.fecha + "T00:00:00");
+    if (fechaTurno < hoy) {
+      Swal.fire({
+        icon: "error",
+        title: "Fecha inválida",
+        text: "No se puede modificar el turno a una fecha menor a hoy.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#ef4444",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: true,
+      });
+      return;
+    }
     updateTurno({ ...form, id: turno.id });
     onTurnoActualizado();
-    navigate("/ver-turnos");
+    navigate("/ver-turnos", {
+      state: { nombre: form.nombre, fecha: form.fecha },
+    });
   };
 
   const inputStyle = {
@@ -146,6 +170,9 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
         <label style={labelStyle}>📱 Teléfono</label>
         <input
           name="telefono"
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder=" Teléfono"
           value={form.telefono}
           onChange={handleChange}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Turno } from "../types";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getTurnos, deleteTurno } from "../assets/utils/localStorageTurnos";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
@@ -11,6 +12,8 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 export function VerTurnos() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showReciente, setShowReciente] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +21,28 @@ export function VerTurnos() {
   const [filtroFecha, setFiltroFecha] = useState<string>("hoy");
   const [fechaPersonalizada, setFechaPersonalizada] = useState<string>("");
   const [busquedaNombre, setBusquedaNombre] = useState<string>("");
+  // Si venimos de AltaTurno, filtrar por nombre y fecha
+  useEffect(() => {
+    if (location.state && showReciente) {
+      const { nombre, fecha } = location.state as {
+        nombre?: string;
+        fecha?: string;
+      };
+      if (nombre) setBusquedaNombre(nombre);
+      if (fecha) {
+        const [year, month, day] = fecha.split("-");
+        setSelectedDate(new Date(Number(year), Number(month) - 1, Number(day)));
+      }
+      setShowReciente(false);
+    } else if (!location.state && showReciente) {
+      // Si no venimos de AltaTurno, mostrar turnos de hoy
+      setBusquedaNombre("");
+      const hoy = new Date();
+      setSelectedDate(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()));
+      setShowReciente(false);
+    }
+  }, [location.state, showReciente]);
+  // ...el filtro ahora se maneja con useLocation y showReciente...
 
   const cargarTurnos = async () => {
     setLoading(true);

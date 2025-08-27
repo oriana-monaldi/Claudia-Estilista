@@ -3,8 +3,10 @@
 import type React from "react";
 import { HeaderBar } from "./HeaderBar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
 import { addTurno } from "../assets/utils/localStorageTurnos";
+import Swal from "sweetalert2";
 
 interface Props {
   onTurnoRegistrado: () => void;
@@ -18,15 +20,24 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     fecha: "",
     hora: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "telefono") {
+      const value = e.target.value.replace(/[^0-9]/g, "");
+      setForm({ ...form, telefono: value });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const fechaTurno = new Date(form.fecha + "T00:00:00");
     if (
       !form.nombre ||
       !form.telefono ||
@@ -35,9 +46,25 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
       !form.hora
     )
       return;
+    if (fechaTurno < hoy) {
+      await Swal.fire({
+        icon: "error",
+        title: "Fecha inválida",
+        text: "No se puede crear un turno en una fecha menor a hoy.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#ef4444",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: true,
+      });
+      return;
+    }
     await addTurno(form);
     setForm({ nombre: "", telefono: "", servicio: "", fecha: "", hora: "" });
     onTurnoRegistrado();
+    navigate("/ver-turnos", {
+      state: { nombre: form.nombre, fecha: form.fecha },
+    });
   };
 
   const inputStyle = {
@@ -147,6 +174,9 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
 
         <input
           name="telefono"
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder=" Teléfono"
           value={form.telefono}
           onChange={handleChange}
