@@ -122,24 +122,26 @@ export function VerTurnos() {
     return fechaTurno >= hoy;
   };
 
-  const turnosFiltrados = turnos.filter((turno) => {
+  // Primero filtrar por fecha
+  let turnosFiltrados = turnos.filter((turno) => {
     if (filtroFecha === "todos") {
-      // Mostrar solo los turnos desde hoy en adelante
-      if (!esFechaFutura(turno.fecha)) return false;
+      return esFechaFutura(turno.fecha);
     } else if (filtroFecha === "hoy") {
-      if (turno.fecha !== getHoy()) return false;
+      return turno.fecha === getHoy();
     } else if (filtroFecha === "personalizada" && fechaPersonalizada) {
-      if (turno.fecha !== fechaPersonalizada) return false;
+      return turno.fecha === fechaPersonalizada;
     }
-
-    if (busquedaNombre.trim()) {
-      const nombreBusqueda = busquedaNombre.toLowerCase().trim();
-      const nombreTurno = turno.nombre.toLowerCase();
-      if (!nombreTurno.includes(nombreBusqueda)) return false;
-    }
-
     return true;
   });
+
+  // Luego filtrar por nombre o apellido si corresponde
+  if (busquedaNombre.trim()) {
+    const nombreBusqueda = busquedaNombre.toLowerCase().trim();
+    turnosFiltrados = turnosFiltrados.filter((turno) => {
+      const nombreTurno = turno.nombre.toLowerCase();
+      return nombreTurno.includes(nombreBusqueda);
+    });
+  }
 
   const turnosOrdenados = turnosFiltrados.sort((a, b) => {
     const fechaA = new Date(a.fecha + "T" + a.hora);
@@ -329,25 +331,26 @@ export function VerTurnos() {
             📋 Todos los próximos
           </button>
         </div>
-        {filtroFecha === "personalizada" && (
-          <input
-            type="date"
-            value={fechaPersonalizada}
-            onChange={(e) => setFechaPersonalizada(e.target.value)}
-            min={getHoy()}
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1.5px solid #e1e5e9",
-              borderRadius: "10px",
-              fontSize: "15px",
-              fontFamily: "inherit",
-              backgroundColor: "#f8fafc",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-          />
-        )}
+        <input
+          type="date"
+          value={fechaPersonalizada}
+          onChange={(e) => {
+            setFechaPersonalizada(e.target.value);
+            setFiltroFecha("personalizada");
+          }}
+          min={getHoy()}
+          style={{
+            width: "100%",
+            padding: "10px 12px",
+            border: "1.5px solid #e1e5e9",
+            borderRadius: "10px",
+            fontSize: "15px",
+            fontFamily: "inherit",
+            backgroundColor: "#f8fafc",
+            outline: "none",
+            boxSizing: "border-box",
+          }}
+        />
       </div>
 
       <div
@@ -359,7 +362,14 @@ export function VerTurnos() {
       >
         <DatePicker
           selected={selectedDate}
-          onChange={(date: Date | null, _event: any) => setSelectedDate(date)}
+          onChange={(date: Date | null, _event: any) => {
+            setSelectedDate(date);
+            if (date) {
+              const fechaStr = date.toISOString().split("T")[0];
+              setFechaPersonalizada(fechaStr);
+              setFiltroFecha("personalizada");
+            }
+          }}
           dateFormat="yyyy-MM-dd"
           inline
           placeholderText="Elegí una fecha"
