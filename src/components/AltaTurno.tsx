@@ -61,6 +61,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
   };
 
   const containerStyle = {
+    width: "100%",
     maxWidth: "400px",
     margin: "0 auto",
     padding: "24px",
@@ -69,6 +70,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    boxSizing: "border-box" as const,
   };
 
   const buttonStyle = {
@@ -124,9 +126,10 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit}>
+        <label style={labelStyle}> 👤 Nombre Completo</label>
         <input
           name="nombre"
-          placeholder="👤 Nombre completo"
+          placeholder=" Nombre completo"
           value={form.nombre}
           onChange={handleChange}
           onFocus={() => setFocusedInput("nombre")}
@@ -138,9 +141,11 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
           }}
         />
 
+        <label style={labelStyle}>📱 Teléfono</label>
+
         <input
           name="telefono"
-          placeholder="📱 Teléfono"
+          placeholder=" Teléfono"
           value={form.telefono}
           onChange={handleChange}
           onFocus={() => setFocusedInput("telefono")}
@@ -151,7 +156,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
             ...(focusedInput === "telefono" ? inputFocusStyle : {}),
           }}
         />
-
+        <label style={labelStyle}>✂️ Servicio a realizarse</label>
         <input
           name="servicio"
           placeholder="Servicio"

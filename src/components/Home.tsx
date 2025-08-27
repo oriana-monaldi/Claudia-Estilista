@@ -89,7 +89,9 @@ const Home: React.FC = () => {
   });
 
   return (
+    
     <div style={containerStyle}>
+      
       <div style={cardStyle}>
         <div
           style={{

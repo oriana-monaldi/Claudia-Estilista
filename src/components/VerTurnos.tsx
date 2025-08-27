@@ -252,6 +252,9 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
           gap: "10px",
         }}
       >
+        <h4 style={{ margin: "0 0 4px 0", fontWeight: 700 }}>
+          Filtrar por nombre o apellido
+        </h4>
         <input
           type="text"
           placeholder="🔎 Filtrar por nombre o apellido"
@@ -259,7 +262,7 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
           onChange={(e) => setBusquedaNombre(e.target.value)}
           style={{
             width: "100%",
-            padding: "12px 14px",
+            padding: "10px 14px",
             border: "1.5px solid #e1e5e9",
             borderRadius: "10px",
             fontSize: "15px",
@@ -267,10 +270,11 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
             backgroundColor: "#f8fafc",
             outline: "none",
             boxSizing: "border-box",
-            marginBottom: "4px",
+            marginBottom: "2px",
           }}
         />
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <h5>Filtrar por:</h5>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <button
             onClick={() => setFiltroFecha("hoy")}
             style={{
@@ -305,24 +309,7 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
           >
             📋 Todos los próximos
           </button>
-          <button
-            onClick={() => setFiltroFecha("personalizada")}
-            style={{
-              padding: "8px 12px",
-              backgroundColor:
-                filtroFecha === "personalizada" ? "#000" : "#f8fafc",
-              color: filtroFecha === "personalizada" ? "#fff" : "#222",
-              border: "1.5px solid #222",
-              borderRadius: "10px",
-              fontSize: "13px",
-              fontWeight: 600,
-              cursor: "pointer",
-              outline: "none",
-              transition: "all 0.2s",
-            }}
-          >
-            🎯 Fecha específica
-          </button>
+          
         </div>
         {filtroFecha === "personalizada" && (
           <input
@@ -420,11 +407,11 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
             {busquedaNombre.trim()
               ? "Intenta con otro nombre o revisa la ortografía"
               : filtroFecha === "hoy"
-              ? "¡!"
+              ? ""
               : "¡Agenda tu próximo turno!"}
           </p>
           <button
-            onClick={onNuevoTurno}
+            onClick={() => navigate("/alta-turno")}
             style={{
               padding: "18px 36px",
               backgroundColor: "#ff6b9d",
@@ -464,7 +451,6 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
                 padding: "24px",
                 borderRadius: "20px",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                // border: "1.5px solid #222",
                 transition: "all 0.2s ease",
               }}
               onTouchStart={(e) => {

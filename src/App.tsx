@@ -136,6 +136,10 @@ function App() {
                   boxShadow: "none",
                   width: "100%",
                   maxWidth: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <h2
@@ -147,9 +151,11 @@ function App() {
                     fontSize: "1.5rem",
                     fontWeight: 600,
                     marginBottom: "24px",
+                    textAlign: "center",
+                    width: "100%",
                   }}
                 >
-                  Nuevo Turno
+                  NUEVO TURNO
                 </h2>
                 <AltaTurno onTurnoRegistrado={refrescarLista} />
               </section>
@@ -178,9 +184,7 @@ function App() {
                     fontWeight: 600,
                     marginBottom: "24px",
                   }}
-                >
-                  Turnos Programados
-                </h2>
+                ></h2>
                 <VerTurnos
                   key={refresh.toString()}
                   onSeleccionarTurno={setTurnoSeleccionado}
