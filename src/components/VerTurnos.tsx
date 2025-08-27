@@ -1,20 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
+import { useNavigate } from "react-router-dom";
 import { getTurnos, deleteTurno } from "../assets/utils/localStorageTurnos";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 
-interface Props {
-  onSeleccionarTurno: (turno: Turno) => void;
-  onNuevoTurno: () => void;
-}
-
-export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
+export function VerTurnos() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [turnos, setTurnos] = useState<Turno[]>([]);
@@ -309,7 +304,6 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
           >
             📋 Todos los próximos
           </button>
-          
         </div>
         {filtroFecha === "personalizada" && (
           <input

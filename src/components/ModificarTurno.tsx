@@ -1,6 +1,7 @@
 "use client";
 
 import type React from "react";
+import { HeaderBar } from "./HeaderBar";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -53,11 +54,12 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
   };
 
   const inputFocusStyle = {
-    borderColor: "#ffc107",
-    boxShadow: "0 0 0 3px rgba(255, 193, 7, 0.1)",
+    borderColor: "#ff6b9d",
+    boxShadow: "0 0 0 3px rgba(255, 107, 157, 0.1)",
   };
 
   const containerStyle = {
+    width: "100%",
     maxWidth: "400px",
     margin: "0 auto",
     padding: "24px",
@@ -66,14 +68,14 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    // border: "none",
+    boxSizing: "border-box" as const,
   };
 
   const buttonStyle = {
     width: "100%",
     padding: "16px",
-    backgroundColor: "#ffc107",
-    color: "#212529",
+    backgroundColor: "#ff6b9d",
+    color: "white",
     border: "none",
     borderRadius: "12px",
     fontSize: "16px",
@@ -81,13 +83,13 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     cursor: "pointer",
     transition: "all 0.2s ease",
     marginTop: "8px",
-    boxShadow: "0 4px 12px rgba(255, 193, 7, 0.3)",
+    boxShadow: "0 4px 12px rgba(255, 107, 157, 0.3)",
   };
 
   const buttonHoverStyle = {
-    backgroundColor: "#ffca28",
+    backgroundColor: "#e55a87",
     transform: "translateY(-1px)",
-    boxShadow: "0 6px 16px rgba(255, 193, 7, 0.4)",
+    boxShadow: "0 6px 16px rgba(255, 107, 157, 0.4)",
   };
 
   const fechaInputStyle = {
@@ -121,42 +123,15 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
 
   return (
     <div style={containerStyle}>
-      <div
-        style={{
-          textAlign: "center" as const,
-          marginBottom: "24px",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "18px",
-            fontWeight: "600",
-            color: "#4a5568",
-            margin: "0 0 8px 0",
-          }}
-        >
-          Editando turno de
-        </h3>
-        <p
-          style={{
-            fontSize: "20px",
-            fontWeight: "700",
-            color: "#2d3748",
-            margin: "0",
-            background: "linear-gradient(135deg, #ffc107, #ff8f00)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          {turno.nombre}
-        </p>
-      </div>
-
+      <HeaderBar>
+        Modificar turno de{" "}
+        <span style={{ fontWeight: 700 }}>{turno.nombre}</span>
+      </HeaderBar>
       <form onSubmit={handleSubmit}>
+        <label style={labelStyle}> 👤 Nombre Completo</label>
         <input
           name="nombre"
-          placeholder="👤 Nombre completo"
+          placeholder=" Nombre completo"
           value={form.nombre}
           onChange={handleChange}
           onFocus={() => setFocusedInput("nombre")}
@@ -168,9 +143,10 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
           }}
         />
 
+        <label style={labelStyle}>📱 Teléfono</label>
         <input
           name="telefono"
-          placeholder="📱 Teléfono"
+          placeholder=" Teléfono"
           value={form.telefono}
           onChange={handleChange}
           onFocus={() => setFocusedInput("telefono")}
@@ -182,6 +158,7 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
           }}
         />
 
+        <label style={labelStyle}>✂️ Servicio a realizarse</label>
         <input
           name="servicio"
           placeholder="Servicio"
@@ -241,7 +218,7 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
             ...(isHovering ? buttonHoverStyle : {}),
           }}
         >
-          💾 Guardar Cambios
+          Guardar Cambios
         </button>
       </form>
     </div>

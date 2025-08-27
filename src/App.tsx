@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AltaTurno } from "./components/AltaTurno";
 import { VerTurnos } from "./components/VerTurnos";
 import { ModificarTurno } from "./components/ModificarTurno";
-import type { Turno } from "./types";
 import {
   BrowserRouter,
   Routes,
@@ -94,18 +93,8 @@ function ModificarTurnoWrapper({
 }
 
 function App() {
-  const [turnoSeleccionado, setTurnoSeleccionado] = useState<Turno | null>(
-    null
-  );
   const [refresh, setRefresh] = useState<number>(0);
-
-  const refrescarLista = () => {
-    setRefresh(refresh + 1);
-  };
-
-  const cancelarModificacion = () => {
-    setTurnoSeleccionado(null);
-  };
+  const refrescarLista = () => setRefresh(refresh + 1);
 
   return (
     <BrowserRouter>
@@ -184,12 +173,11 @@ function App() {
                     fontWeight: 600,
                     marginBottom: "24px",
                   }}
-                ></h2>
-                <VerTurnos
-                  key={refresh.toString()}
-                  onSeleccionarTurno={setTurnoSeleccionado}
-                  onNuevoTurno={refrescarLista}
-                />
+                >
+                  {" "}
+                  TURNOS PROGRAMADOS
+                </h2>
+                <VerTurnos key={refresh.toString()} />
               </section>
             }
           />
