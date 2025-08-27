@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
 import { getTurnos, deleteTurno } from "../assets/utils/localStorageTurnos";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 interface Props {
@@ -12,6 +15,8 @@ interface Props {
 }
 
 export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -107,6 +112,11 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
       if (!nombreTurno.includes(nombreBusqueda)) return false;
     }
 
+    if (selectedDate) {
+      const dateStr = selectedDate.toISOString().split("T")[0];
+      return turno.fecha === dateStr;
+    }
+
     if (filtroFecha === "hoy") {
       return turno.fecha === getHoy();
     } else if (filtroFecha === "todos") {
@@ -196,250 +206,174 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: "10px 0 0 0",
         fontFamily:
           "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        maxWidth: "480px",
+        margin: "0 auto",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "24px",
-        }}
-      >
-        <div>
-          <h2
-            style={{
-              fontSize: "28px",
-              fontWeight: "800",
-              margin: "0 0 8px 0",
-              color: "#000",
-              letterSpacing: "1px",
-            }}
-          >
-            ✂️ {getTituloFiltro()}
-          </h2>
-          <p
-            style={{
-              fontSize: "16px",
-              color: "#64748b",
-              margin: "0",
-              fontWeight: "500",
-            }}
-          >
-            {turnosOrdenados.length} turno
-            {turnosOrdenados.length !== 1 ? "s" : ""} próximo
-            {turnosOrdenados.length !== 1 ? "s" : ""}
-          </p>
-        </div>
+      {/* TÍTULO Y SUBTÍTULO */}
+      <div style={{ marginBottom: "16px", textAlign: "center" }}>
+        <h2
+          style={{
+            fontSize: "22px",
+            fontWeight: 800,
+            color: "#000",
+            margin: 0,
+            letterSpacing: "1px",
+          }}
+        >
+          ✂️ {getTituloFiltro()}
+        </h2>
+        <p
+          style={{
+            fontSize: "14px",
+            color: "#64748b",
+            margin: 0,
+            fontWeight: 500,
+          }}
+        >
+          {turnosOrdenados.length} turno
+          {turnosOrdenados.length !== 1 ? "s" : ""} próximo
+          {turnosOrdenados.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
       <div
         style={{
-          backgroundColor: "#fff",
-          padding: "16px 12px",
+          background: "#fff",
           borderRadius: "12px",
-          boxShadow: "none",
-          marginBottom: "24px",
-          maxWidth: "480px",
-          width: "100%",
-          margin: "0 auto 24px auto",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+          padding: "16px 12px 12px 12px",
+          marginBottom: "18px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          gap: "10px",
         }}
       >
-        <h3
+        <input
+          type="text"
+          placeholder="🔎 Filtrar por nombre o apellido"
+          value={busquedaNombre}
+          onChange={(e) => setBusquedaNombre(e.target.value)}
           style={{
-            fontSize: "16px",
-            fontWeight: "600",
-            color: "#000",
-            margin: "0 0 16px 0",
-            textAlign: "center",
+            width: "100%",
+            padding: "12px 14px",
+            border: "1.5px solid #e1e5e9",
+            borderRadius: "10px",
+            fontSize: "15px",
+            fontFamily: "inherit",
+            backgroundColor: "#f8fafc",
+            outline: "none",
+            boxSizing: "border-box",
+            marginBottom: "4px",
           }}
-        >
-          🔍 Filtrar turnos
-        </h3>
-
-        <div style={{ marginBottom: "20px" }}>
-          <h3
-            style={{
-              fontSize: "16px",
-              fontWeight: "600",
-              color: "#374151",
-              margin: "0 0 16px 0",
-            }}
-          >
-            Buscar turno por nombre
-          </h3>
-          <input
-            type="text"
-            placeholder="🔎 Filtar por nombre o apellido"
-            value={busquedaNombre}
-            onChange={(e) => setBusquedaNombre(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "14px 16px",
-              border: "2px solid #e1e5e9",
-              borderRadius: "12px",
-              fontSize: "16px",
-              fontFamily: "inherit",
-              backgroundColor: "#fff",
-              transition: "all 0.2s ease",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = "#ff6b9d";
-              e.target.style.boxShadow = "0 0 0 3px rgba(255, 107, 157, 0.1)";
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = "#e1e5e9";
-              e.target.style.boxShadow = "none";
-            }}
-          />
-          {busquedaNombre && (
-            <div
-              style={{
-                marginTop: "8px",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "14px",
-                  color: "#64748b",
-                  fontWeight: "500",
-                }}
-              >
-                Buscando: "{busquedaNombre}"
-              </span>
-              <button
-                onClick={() => setBusquedaNombre("")}
-                style={{
-                  padding: "4px 8px",
-                  backgroundColor: "#f1f5f9",
-                  color: "#64748b",
-                  border: "none",
-                  borderRadius: "6px",
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = "#e2e8f0";
-                }}
-                onMouseLeave={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = "#f1f5f9";
-                }}
-              >
-                ✕ Limpiar
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            flexWrap: "wrap",
-            marginBottom: filtroFecha === "personalizada" ? "16px" : "0",
-          }}
-        >
+        />
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
           <button
             onClick={() => setFiltroFecha("hoy")}
             style={{
-              padding: "10px 16px",
+              padding: "8px 12px",
               backgroundColor: filtroFecha === "hoy" ? "#000" : "#f8fafc",
               color: filtroFecha === "hoy" ? "#fff" : "#222",
               border: "1.5px solid #222",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontWeight: "600",
+              borderRadius: "10px",
+              fontSize: "13px",
+              fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.2s ease",
               outline: "none",
+              transition: "all 0.2s",
             }}
           >
             📅 Hoy
           </button>
-
           <button
             onClick={() => setFiltroFecha("todos")}
             style={{
-              padding: "10px 16px",
+              padding: "8px 12px",
               backgroundColor: filtroFecha === "todos" ? "#000" : "#f8fafc",
               color: filtroFecha === "todos" ? "#fff" : "#222",
               border: "1.5px solid #222",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontWeight: "600",
+              borderRadius: "10px",
+              fontSize: "13px",
+              fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.2s ease",
               outline: "none",
+              transition: "all 0.2s",
             }}
           >
             📋 Todos los próximos
           </button>
-
           <button
             onClick={() => setFiltroFecha("personalizada")}
             style={{
-              padding: "10px 16px",
+              padding: "8px 12px",
               backgroundColor:
                 filtroFecha === "personalizada" ? "#000" : "#f8fafc",
               color: filtroFecha === "personalizada" ? "#fff" : "#222",
               border: "1.5px solid #222",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontWeight: "600",
+              borderRadius: "10px",
+              fontSize: "13px",
+              fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.2s ease",
               outline: "none",
+              transition: "all 0.2s",
             }}
           >
             🎯 Fecha específica
           </button>
         </div>
-
         {filtroFecha === "personalizada" && (
-          <div style={{ marginTop: "16px" }}>
-            <input
-              type="date"
-              value={fechaPersonalizada}
-              onChange={(e) => setFechaPersonalizada(e.target.value)}
-              min={getHoy()}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                border: "2px solid #e1e5e9",
-                borderRadius: "12px",
-                fontSize: "16px",
-                fontFamily: "inherit",
-                backgroundColor: "#fff",
-                transition: "all 0.2s ease",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#ff6b9d";
-                e.target.style.boxShadow = "0 0 0 3px rgba(255, 107, 157, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#e1e5e9";
-                e.target.style.boxShadow = "none";
-              }}
-            />
-          </div>
+          <input
+            type="date"
+            value={fechaPersonalizada}
+            onChange={(e) => setFechaPersonalizada(e.target.value)}
+            min={getHoy()}
+            style={{
+              width: "100%",
+              padding: "10px 12px",
+              border: "1.5px solid #e1e5e9",
+              borderRadius: "10px",
+              fontSize: "15px",
+              fontFamily: "inherit",
+              backgroundColor: "#f8fafc",
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
         )}
+      </div>
+
+      <div
+        style={{
+          marginBottom: "12px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null, _event: any) => setSelectedDate(date)}
+          dateFormat="yyyy-MM-dd"
+          inline
+          placeholderText="Elegí una fecha"
+          dayClassName={(date) => {
+            const today = new Date();
+            const isToday =
+              date.getDate() === today.getDate() &&
+              date.getMonth() === today.getMonth() &&
+              date.getFullYear() === today.getFullYear();
+            return isToday ? "react-datepicker__day--today-highlight" : "";
+          }}
+        />
+        <style>{`
+          .react-datepicker__day--today-highlight {
+            background: #000 !important;
+            color: #fff !important;
+            border-radius: 50% !important;
+          }
+        `}</style>
       </div>
 
       {turnosOrdenados.length === 0 ? (
@@ -449,7 +383,6 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
             padding: "80px 20px",
             backgroundColor: "#fff",
             borderRadius: "20px",
-            // border: "2px dashed #e2e8f0",
             background: "linear-gradient(135deg, #fff 0%, #fdf2f8 100%)",
           }}
         >
@@ -473,7 +406,7 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
             {busquedaNombre.trim()
               ? `No se encontraron clientes con "${busquedaNombre.trim()}"`
               : filtroFecha === "hoy"
-              ? "No tienes turnos para hoy"
+              ? "No tenes turnos para hoy"
               : "No hay turnos próximos"}
           </h3>
           <p
@@ -487,8 +420,8 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
             {busquedaNombre.trim()
               ? "Intenta con otro nombre o revisa la ortografía"
               : filtroFecha === "hoy"
-              ? "¡Aprovecha para relajarte o agenda uno para mañana!"
-              : "¡Agenda tu próximo turno y luce espectacular!"}
+              ? "¡!"
+              : "¡Agenda tu próximo turno!"}
           </p>
           <button
             onClick={onNuevoTurno}
@@ -722,7 +655,9 @@ export function VerTurnos({ onSeleccionarTurno, onNuevoTurno }: Props) {
                 }}
               >
                 <button
-                  onClick={() => onSeleccionarTurno(turno)}
+                  onClick={() =>
+                    navigate("/modificar-turno", { state: { turno } })
+                  }
                   style={{
                     flex: "1",
                     padding: "14px",

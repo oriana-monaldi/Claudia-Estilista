@@ -5,7 +5,13 @@ import { AltaTurno } from "./components/AltaTurno";
 import { VerTurnos } from "./components/VerTurnos";
 import { ModificarTurno } from "./components/ModificarTurno";
 import type { Turno } from "./types";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Home from "./components/Home";
 
 const estilosInputs = `
@@ -69,6 +75,23 @@ const estilosInputs = `
     }
   }
 `;
+
+function ModificarTurnoWrapper({
+  onTurnoActualizado,
+}: {
+  onTurnoActualizado: () => void;
+}) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const turno = location.state?.turno;
+  if (!turno) {
+    navigate("/ver-turnos");
+    return null;
+  }
+  return (
+    <ModificarTurno turno={turno} onTurnoActualizado={onTurnoActualizado} />
+  );
+}
 
 function App() {
   const [turnoSeleccionado, setTurnoSeleccionado] = useState<Turno | null>(
@@ -166,74 +189,13 @@ function App() {
               </section>
             }
           />
+          <Route
+            path="/modificar-turno"
+            element={
+              <ModificarTurnoWrapper onTurnoActualizado={refrescarLista} />
+            }
+          />
         </Routes>
-
-        {turnoSeleccionado && (
-          <section
-            style={{
-              background: "#fff",
-              borderRadius: "20px",
-              padding: "32px 0",
-              boxShadow: "none",
-              marginTop: "24px",
-              width: "100%",
-              maxWidth: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "24px",
-                flexWrap: "wrap",
-                gap: "16px",
-              }}
-            >
-              <h2
-                style={{
-                  color: "#000",
-                  borderBottom: "3px solid #000",
-                  paddingBottom: "12px",
-                  margin: "0",
-                  fontSize: "1.5rem",
-                  fontWeight: 600,
-                  minWidth: "0",
-                }}
-              >
-                Modificar Turno
-              </h2>
-              <button
-                onClick={cancelarModificacion}
-                style={{
-                  background: "#e5e7eb",
-                  color: "#000",
-                  border: "1.5px solid #222",
-                  borderRadius: "12px",
-                  padding: "12px 24px",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  whiteSpace: "nowrap",
-                  transition: "all 0.2s",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                }}
-                onMouseOver={(e) => {
-                  (e.target as HTMLButtonElement).style.background = "#d1d5db";
-                }}
-                onMouseOut={(e) => {
-                  (e.target as HTMLButtonElement).style.background = "#e5e7eb";
-                }}
-              >
-                ✕ Cancelar
-              </button>
-            </div>
-            <ModificarTurno
-              turno={turnoSeleccionado}
-              onTurnoActualizado={refrescarLista}
-            />
-          </section>
-        )}
       </div>
     </BrowserRouter>
   );

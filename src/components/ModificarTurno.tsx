@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
 import { updateTurno } from "../assets/utils/localStorageTurnos";
 
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
+  const navigate = useNavigate();
+  if (!turno) return <div>No hay turno seleccionado.</div>;
   const [form, setForm] = useState<Omit<Turno, "id">>({
     nombre: turno.nombre,
     telefono: turno.telefono,
@@ -30,6 +33,7 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     e.preventDefault();
     updateTurno({ ...form, id: turno.id });
     onTurnoActualizado();
+    navigate("/ver-turnos");
   };
 
   const inputStyle = {
