@@ -61,6 +61,14 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     }
     await addTurno(form);
     setForm({ nombre: "", telefono: "", servicio: "", fecha: "", hora: "" });
+    await Swal.fire({
+      icon: "success",
+      title: "Turno registrado",
+      text: "El turno se ha dado de alta correctamente.",
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
     onTurnoRegistrado();
     navigate("/ver-turnos", {
       state: { nombre: form.nombre, fecha: form.fecha },
