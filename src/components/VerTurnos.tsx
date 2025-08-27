@@ -232,7 +232,13 @@ export function VerTurnos() {
         margin: "0 auto",
       }}
     >
-      <div style={{ marginBottom: "16px", textAlign: "center" }}>
+      <div
+        style={{
+          marginBottom: "16px",
+          textAlign: "center",
+          position: "relative",
+        }}
+      >
         <h2
           style={{
             fontSize: "22px",

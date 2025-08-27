@@ -161,7 +161,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
 
   return (
     <div style={containerStyle}>
-      <HeaderBar>Alta de turno</HeaderBar>
+      <HeaderBar>Registrar nuevo turno</HeaderBar>
       <form onSubmit={handleSubmit}>
         <label style={labelStyle}> 👤 Nombre Completo</label>
         <input

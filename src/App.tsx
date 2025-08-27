@@ -80,16 +80,7 @@ function ModificarTurnoWrapper({
 }: {
   onTurnoActualizado: () => void;
 }) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const turno = location.state?.turno;
-  if (!turno) {
-    navigate("/ver-turnos");
-    return null;
-  }
-  return (
-    <ModificarTurno turno={turno} onTurnoActualizado={onTurnoActualizado} />
-  );
+  return <ModificarTurno onTurnoActualizado={onTurnoActualizado} />;
 }
 
 function App() {
@@ -140,7 +131,7 @@ function App() {
                     fontSize: "1.5rem",
                     fontWeight: 600,
                     marginBottom: "24px",
-                    textAlign: "center",
+                    textAlign: "left",
                     width: "100%",
                   }}
                 >
@@ -174,7 +165,6 @@ function App() {
                     marginBottom: "24px",
                   }}
                 >
-                  {" "}
                   TURNOS PROGRAMADOS
                 </h2>
                 <VerTurnos key={refresh.toString()} />
