@@ -123,7 +123,14 @@ export function VerTurnos() {
   };
 
   const turnosFiltrados = turnos.filter((turno) => {
-    if (!esFechaFutura(turno.fecha)) return false;
+    if (filtroFecha === "todos") {
+      // Mostrar solo los turnos desde hoy en adelante
+      if (!esFechaFutura(turno.fecha)) return false;
+    } else if (filtroFecha === "hoy") {
+      if (turno.fecha !== getHoy()) return false;
+    } else if (filtroFecha === "personalizada" && fechaPersonalizada) {
+      if (turno.fecha !== fechaPersonalizada) return false;
+    }
 
     if (busquedaNombre.trim()) {
       const nombreBusqueda = busquedaNombre.toLowerCase().trim();
@@ -131,18 +138,6 @@ export function VerTurnos() {
       if (!nombreTurno.includes(nombreBusqueda)) return false;
     }
 
-    if (selectedDate) {
-      const dateStr = selectedDate.toISOString().split("T")[0];
-      return turno.fecha === dateStr;
-    }
-
-    if (filtroFecha === "hoy") {
-      return turno.fecha === getHoy();
-    } else if (filtroFecha === "todos") {
-      return true;
-    } else if (filtroFecha === "personalizada" && fechaPersonalizada) {
-      return turno.fecha === fechaPersonalizada;
-    }
     return true;
   });
 
