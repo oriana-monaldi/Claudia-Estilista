@@ -21,7 +21,6 @@ export function VerTurnos() {
   const [filtroFecha, setFiltroFecha] = useState<string>("hoy");
   const [fechaPersonalizada, setFechaPersonalizada] = useState<string>("");
   const [busquedaNombre, setBusquedaNombre] = useState<string>("");
-  // Si venimos de AltaTurno, filtrar por nombre y fecha
   useEffect(() => {
     if (location.state && showReciente) {
       const { nombre, fecha } = location.state as {
@@ -35,14 +34,14 @@ export function VerTurnos() {
       }
       setShowReciente(false);
     } else if (!location.state && showReciente) {
-      // Si no venimos de AltaTurno, mostrar turnos de hoy
       setBusquedaNombre("");
       const hoy = new Date();
-      setSelectedDate(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()));
+      setSelectedDate(
+        new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
+      );
       setShowReciente(false);
     }
   }, [location.state, showReciente]);
-  // ...el filtro ahora se maneja con useLocation y showReciente...
 
   const cargarTurnos = async () => {
     setLoading(true);
@@ -233,7 +232,6 @@ export function VerTurnos() {
         margin: "0 auto",
       }}
     >
-      {/* TÍTULO Y SUBTÍTULO */}
       <div style={{ marginBottom: "16px", textAlign: "center" }}>
         <h2
           style={{
@@ -457,7 +455,7 @@ export function VerTurnos() {
               target.style.boxShadow = "0 6px 20px rgba(255, 107, 157, 0.4)";
             }}
           >
-            ✨ Agendar Turno
+            Agendar Turno
           </button>
         </div>
       ) : (
@@ -495,7 +493,7 @@ export function VerTurnos() {
                     wordBreak: "break-word",
                   }}
                 >
-                  👤 {turno.nombre}
+                  {turno.nombre}
                 </h3>
 
                 <div
@@ -638,7 +636,7 @@ export function VerTurnos() {
                     wordBreak: "break-word",
                   }}
                 >
-                  <span>✨</span>
+                  <span></span>
                   <span
                     style={{
                       overflow: "hidden",
@@ -692,7 +690,7 @@ export function VerTurnos() {
                       "0 2px 8px rgba(59, 130, 246, 0.3)";
                   }}
                 >
-                  ✏️ Editar
+                  Editar
                 </button>
 
                 <button
@@ -752,7 +750,7 @@ export function VerTurnos() {
                       Eliminando...
                     </>
                   ) : (
-                    <>🗑️ Eliminar</>
+                    <> Eliminar</>
                   )}
                 </button>
               </div>
