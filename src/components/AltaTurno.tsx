@@ -69,9 +69,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
       showConfirmButton: false,
     });
     onTurnoRegistrado();
-    navigate("/ver-turnos", {
-      state: { nombre: form.nombre, fecha: form.fecha },
-    });
+    navigate("/");
   };
 
   const inputStyle = {

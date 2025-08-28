@@ -478,12 +478,14 @@ export function VerTurnos() {
               <div
                 key={turno.id}
                 style={{
-                  backgroundColor: "#fff",
-                  padding: "14px 8px",
-                  borderRadius: "20px",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                  border: "2px solid #e2e8f0",
-                  transition: "all 0.2s ease",
+                  background: "#fff",
+                  padding: "18px 14px 16px 14px",
+                  borderRadius: "18px",
+                  boxShadow: "0 6px 24px rgba(0,0,0,0.10)",
+                  border: "1.5px solid #e1e5e9",
+                  transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
+                  marginBottom: 2,
+                  position: "relative",
                 }}
                 onTouchStart={(e) => {
                   const target = e.currentTarget as HTMLDivElement;
@@ -519,42 +521,42 @@ export function VerTurnos() {
                     {turno.nombre}
                   </h3>
 
-                  {/* Botones de acción */}
                   <div
                     style={{
                       display: "flex",
-                      gap: "8px",
+                      gap: "10px",
                       flexShrink: 0,
+                      alignItems: "center",
                     }}
                   >
-                    {/* Editar */}
                     <button
                       onClick={() =>
                         navigate("/modificar-turno", { state: { turno } })
                       }
                       style={{
-                        height: "36px",
-                        width: "36px",
-                        background: "#f1f5f9",
+                        height: "38px",
+                        width: "38px",
+                        background: "#e0e7ef",
                         color: "#2563eb",
-                        border: "1.5px solid #cbd5e1",
-                        borderRadius: "10px",
+                        border: "none",
+                        borderRadius: "50%",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        transition: "all 0.2s",
-                        boxShadow: "none",
-                        fontSize: "16px",
+                        transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
+                        boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
+                        fontSize: "17px",
                         cursor: "pointer",
+                        outline: "none",
                       }}
                       onMouseEnter={(e) => {
                         const target = e.target as HTMLButtonElement;
-                        target.style.background = "#e0e7ef";
-                        target.style.color = "#1d4ed8";
+                        target.style.background = "#2563eb";
+                        target.style.color = "#fff";
                       }}
                       onMouseLeave={(e) => {
                         const target = e.target as HTMLButtonElement;
-                        target.style.background = "#f1f5f9";
+                        target.style.background = "#e0e7ef";
                         target.style.color = "#2563eb";
                       }}
                       aria-label="Editar turno"
@@ -580,33 +582,35 @@ export function VerTurnos() {
                       onClick={() => handleDelete(turno.id)}
                       disabled={deletingId === turno.id}
                       style={{
-                        height: "36px",
-                        width: "36px",
-                        background: "#f1f5f9",
-                        color: "#ef4444",
-                        border: "1.5px solid #cbd5e1",
-                        borderRadius: "10px",
+                        height: "38px",
+                        width: "38px",
+                        background:
+                          deletingId === turno.id ? "#fef2f2" : "#fff0f3",
+                        color: deletingId === turno.id ? "#b91c1c" : "#ef4444",
+                        border: "none",
+                        borderRadius: "50%",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        transition: "all 0.2s",
-                        boxShadow: "none",
-                        fontSize: "16px",
+                        transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
+                        boxShadow: "0 2px 8px rgba(239,68,68,0.08)",
+                        fontSize: "17px",
                         cursor:
                           deletingId === turno.id ? "not-allowed" : "pointer",
                         opacity: deletingId === turno.id ? 0.6 : 1,
+                        outline: "none",
                       }}
                       onMouseEnter={(e) => {
                         if (deletingId !== turno.id) {
                           const target = e.target as HTMLButtonElement;
-                          target.style.background = "#fef2f2";
-                          target.style.color = "#b91c1c";
+                          target.style.background = "#ef4444";
+                          target.style.color = "#fff";
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (deletingId !== turno.id) {
                           const target = e.target as HTMLButtonElement;
-                          target.style.background = "#f1f5f9";
+                          target.style.background = "#fff0f3";
                           target.style.color = "#ef4444";
                         }
                       }}
