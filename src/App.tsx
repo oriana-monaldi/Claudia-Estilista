@@ -14,18 +14,19 @@ const estilosInputs = `
     max-width: 100%;
     padding: 16px 20px;
     font-size: 16px;
-    border: 2px solid #f1f5f9;
     border-radius: 12px;
     box-sizing: border-box;
     transition: all 0.3s ease;
-    background: white;
+    background: #222;
+    border: none;
+    color: #fff;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   .input-principal:focus {
     outline: none;
-    border-color: #ff6b9d;
-    box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+    border: none;
+    box-shadow: 0 0 0 2px #ff6b9d;
     transform: translateY(-1px);
   }
   
@@ -35,10 +36,11 @@ const estilosInputs = `
     max-width: 100%;
     padding: 16px 20px;
     font-size: 16px;
-    border: 2px solid #f1f5f9;
     border-radius: 12px;
     box-sizing: border-box;
-    background: white;
+    background: #222;
+    border: none;
+    color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -46,8 +48,8 @@ const estilosInputs = `
   
   .select-principal:focus {
     outline: none;
-    border-color: #ff6b9d;
-    box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+    border: none;
+    box-shadow: 0 0 0 2px #ff6b9d;
     transform: translateY(-1px);
   }
   
@@ -101,6 +103,21 @@ function App() {
 
   return (
     <BrowserRouter>
+      <style>{`
+        html, body {
+          background: #000 !important;
+          color: #fff !important;
+          min-height: 100vh;
+          width: 100vw;
+          margin: 0;
+          padding: 0;
+          overflow-y: hidden !important;
+        }
+        #root {
+          min-height: 100vh;
+          overflow-y: hidden !important;
+        }
+      `}</style>
       <style>{estilosInputs}</style>
       <div
         style={{
@@ -108,7 +125,7 @@ function App() {
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "0",
-          background: "#fff",
+          background: "#000",
           minHeight: "100svh",
           overflowX: "hidden",
           overflowY: "auto",
@@ -121,10 +138,10 @@ function App() {
             element={
               <section
                 style={{
-                  background: "#fff",
-                  borderRadius: "10px",
-                  padding: "25px 0",
-                  marginBottom: "24px",
+                  background: "transparent",
+                  borderRadius: 0,
+                  padding: 0,
+                  marginBottom: 0,
                   boxShadow: "none",
                   width: "100%",
                   maxWidth: "100%",
@@ -134,21 +151,7 @@ function App() {
                   justifyContent: "center",
                 }}
               >
-                <h2
-                  style={{
-                    color: "#000",
-                    borderBottom: "3px solid #000",
-                    paddingBottom: "12px",
-                    marginTop: "0",
-                    fontSize: "1.5rem",
-                    fontWeight: 600,
-                    marginBottom: "24px",
-                    textAlign: "left",
-                    width: "100%",
-                  }}
-                >
-                  NUEVO TURNO
-                </h2>
+              
                 <AltaTurno onTurnoRegistrado={refrescarLista} />
               </section>
             }
@@ -158,15 +161,14 @@ function App() {
             element={
               <section
                 style={{
-                  background: "#fff",
-                  borderRadius: "20px",
-                  padding: "32px 0",
+                  background: "transparent",
+                  borderRadius: 0,
+                  padding: 0,
                   boxShadow: "none",
                   width: "100%",
                   maxWidth: "100%",
                 }}
               >
-                
                 <VerTurnos key={refresh.toString()} />
               </section>
             }

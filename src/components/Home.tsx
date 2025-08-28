@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
   const containerStyle = {
     minHeight: "100vh",
-    background: "#fff",
+    background: "#000",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -21,9 +21,9 @@ const Home: React.FC = () => {
   };
 
   const cardStyle = {
-    backgroundColor: "#fff",
-    borderRadius: "24px",
-    padding: "20px 12px 16px 12px",
+    backgroundColor: "transparent",
+    borderRadius: 0,
+    padding: 0,
     boxShadow: "none",
     textAlign: "center" as const,
     maxWidth: "380px",
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
     padding: "18px 24px",
     backgroundColor: buttonType === "ver" ? "#000" : "#fff",
     color: buttonType === "ver" ? "#fff" : "#000",
-    border: "2px solid #000",
+    border: buttonType === "ver" ? "2px solid #fff" : "2px solid #000",
     borderRadius: "16px",
     fontSize: "16px",
     fontWeight: "700",
@@ -89,9 +89,7 @@ const Home: React.FC = () => {
   });
 
   return (
-    
     <div style={containerStyle}>
-      
       <div style={cardStyle}>
         <div
           style={{
@@ -101,16 +99,20 @@ const Home: React.FC = () => {
             justifyContent: "center",
           }}
         >
-          <h1 style={{ ...titleStyle, textAlign: "center" }}>TURNOS</h1>
-          <p
+          <img
+            src={"/fotoClaudia.jpeg"}
+            alt="Claudia Echavarry"
             style={{
-              ...subtitleStyle,
-              textAlign: "center",
-              marginBottom: "40px",
+              width: 260,
+              height: "auto",
+              maxWidth: "100%",
+              objectFit: "contain",
+              marginBottom: 18,
+              boxShadow: "none",
+              border: "none",
             }}
-          >
-            Claudia Echavarry
-          </p>
+          />
+          <h1 style={{ ...titleStyle, textAlign: "center" }}>TURNOS</h1>
         </div>
         <div style={buttonContainerStyle}>
           <button

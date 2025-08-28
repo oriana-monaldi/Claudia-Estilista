@@ -94,7 +94,6 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     borderColor: "#ff6b9d",
     boxShadow: "0 0 0 3px rgba(255, 107, 157, 0.1)",
   };
-
   const containerStyle = {
     width: "100%",
     maxWidth: "400px",
@@ -106,6 +105,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     boxSizing: "border-box" as const,
+    zIndex: 2,
   };
 
   const buttonStyle = {
@@ -159,103 +159,125 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div style={containerStyle}>
-      <form onSubmit={handleSubmit}>
-        <label style={labelStyle}> 👤 Nombre Completo</label>
-        <input
-          name="nombre"
-          placeholder=" Nombre completo"
-          value={form.nombre}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("nombre")}
-          onBlur={() => setFocusedInput(null)}
-          required
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+        background: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "32px 0",
+      }}
+    >
+      <div style={containerStyle}>
+        <h2
           style={{
-            ...inputStyle,
-            ...(focusedInput === "nombre" ? inputFocusStyle : {}),
-          }}
-        />
-
-        <label style={labelStyle}>📱 Teléfono</label>
-
-        <input
-          name="telefono"
-          type="tel"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          placeholder=" Teléfono"
-          value={form.telefono}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("telefono")}
-          onBlur={() => setFocusedInput(null)}
-          required
-          style={{
-            ...inputStyle,
-            ...(focusedInput === "telefono" ? inputFocusStyle : {}),
-          }}
-        />
-        <label style={labelStyle}>✂️ Servicio a realizarse</label>
-        <input
-          name="servicio"
-          placeholder="Servicio"
-          value={form.servicio}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("servicio")}
-          onBlur={() => setFocusedInput(null)}
-          style={{
-            ...inputStyle,
-            ...(focusedInput === "servicio" ? inputFocusStyle : {}),
-          }}
-        />
-
-        <div style={fechaHoraContainerStyle}>
-          <div>
-            <label style={labelStyle}>📅 Fecha</label>
-            <input
-              name="fecha"
-              type="date"
-              value={form.fecha}
-              onChange={handleChange}
-              onFocus={() => setFocusedInput("fecha")}
-              onBlur={() => setFocusedInput(null)}
-              required
-              style={{
-                ...fechaInputStyle,
-                ...(focusedInput === "fecha" ? inputFocusStyle : {}),
-              }}
-            />
-          </div>
-
-          <div>
-            <label style={labelStyle}>🕐 Hora</label>
-            <input
-              name="hora"
-              type="time"
-              value={form.hora}
-              onChange={handleChange}
-              onFocus={() => setFocusedInput("hora")}
-              onBlur={() => setFocusedInput(null)}
-              required
-              style={{
-                ...horaInputStyle,
-                ...(focusedInput === "hora" ? inputFocusStyle : {}),
-              }}
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          style={{
-            ...buttonStyle,
-            ...(isHovering ? buttonHoverStyle : {}),
+            color: "#111",
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 24,
           }}
         >
-          Registrar Turno
-        </button>
-      </form>
+          NUEVO TURNO
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <label style={labelStyle}> 👤 Nombre Completo</label>
+          <input
+            name="nombre"
+            placeholder=" Nombre completo"
+            value={form.nombre}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("nombre")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "nombre" ? inputFocusStyle : {}),
+            }}
+          />
+
+          <label style={labelStyle}>📱 Teléfono</label>
+
+          <input
+            name="telefono"
+            type="tel"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            placeholder=" Teléfono"
+            value={form.telefono}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("telefono")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "telefono" ? inputFocusStyle : {}),
+            }}
+          />
+          <label style={labelStyle}>✂️ Servicio a realizarse</label>
+          <input
+            name="servicio"
+            placeholder="Servicio"
+            value={form.servicio}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("servicio")}
+            onBlur={() => setFocusedInput(null)}
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "servicio" ? inputFocusStyle : {}),
+            }}
+          />
+
+          <div style={fechaHoraContainerStyle}>
+            <div>
+              <label style={labelStyle}>📅 Fecha</label>
+              <input
+                name="fecha"
+                type="date"
+                value={form.fecha}
+                onChange={handleChange}
+                onFocus={() => setFocusedInput("fecha")}
+                onBlur={() => setFocusedInput(null)}
+                required
+                style={{
+                  ...fechaInputStyle,
+                  ...(focusedInput === "fecha" ? inputFocusStyle : {}),
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>🕐 Hora</label>
+              <input
+                name="hora"
+                type="time"
+                value={form.hora}
+                onChange={handleChange}
+                onFocus={() => setFocusedInput("hora")}
+                onBlur={() => setFocusedInput(null)}
+                required
+                style={{
+                  ...horaInputStyle,
+                  ...(focusedInput === "hora" ? inputFocusStyle : {}),
+                }}
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            style={{
+              ...buttonStyle,
+              ...(isHovering ? buttonHoverStyle : {}),
+            }}
+          >
+            Registrar Turno
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
