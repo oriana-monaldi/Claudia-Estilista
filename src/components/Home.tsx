@@ -41,14 +41,6 @@ const Home: React.FC = () => {
     lineHeight: "1.2",
   };
 
-  const subtitleStyle = {
-    fontSize: "16px",
-    color: "#222",
-    margin: "0 0 40px 0",
-    fontWeight: "500",
-    lineHeight: "1.5",
-  };
-
   const buttonContainerStyle = {
     display: "flex",
     flexDirection: "column" as const,
