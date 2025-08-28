@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-import { HeaderBar } from "./HeaderBar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
@@ -161,7 +160,6 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
 
   return (
     <div style={containerStyle}>
-      <HeaderBar>Registrar nuevo turno</HeaderBar>
       <form onSubmit={handleSubmit}>
         <label style={labelStyle}> 👤 Nombre Completo</label>
         <input

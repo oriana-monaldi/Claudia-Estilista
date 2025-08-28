@@ -4,13 +4,7 @@ import { useState } from "react";
 import { AltaTurno } from "./components/AltaTurno";
 import { VerTurnos } from "./components/VerTurnos";
 import { ModificarTurno } from "./components/ModificarTurno";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 
 const estilosInputs = `
@@ -80,7 +74,25 @@ function ModificarTurnoWrapper({
 }: {
   onTurnoActualizado: () => void;
 }) {
-  return <ModificarTurno onTurnoActualizado={onTurnoActualizado} />;
+  const location = useLocation();
+  const turno = location.state?.turno;
+  if (!turno) {
+    return (
+      <div
+        style={{
+          padding: 32,
+          textAlign: "center",
+          color: "#c00",
+          fontWeight: 600,
+        }}
+      >
+        No hay turno seleccionado para modificar.
+      </div>
+    );
+  }
+  return (
+    <ModificarTurno turno={turno} onTurnoActualizado={onTurnoActualizado} />
+  );
 }
 
 function App() {
@@ -110,8 +122,8 @@ function App() {
               <section
                 style={{
                   background: "#fff",
-                  borderRadius: "20px",
-                  padding: "32px 0",
+                  borderRadius: "10px",
+                  padding: "25px 0",
                   marginBottom: "24px",
                   boxShadow: "none",
                   width: "100%",
@@ -154,19 +166,7 @@ function App() {
                   maxWidth: "100%",
                 }}
               >
-                <h2
-                  style={{
-                    color: "#000",
-                    borderBottom: "3px solid #000",
-                    paddingBottom: "12px",
-                    marginTop: "0",
-                    fontSize: "1.5rem",
-                    fontWeight: 600,
-                    marginBottom: "24px",
-                  }}
-                >
-                  TURNOS PROGRAMADOS
-                </h2>
+                
                 <VerTurnos key={refresh.toString()} />
               </section>
             }
