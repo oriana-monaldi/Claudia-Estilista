@@ -112,8 +112,8 @@ export function VerTurnos() {
   const getHoy = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -125,7 +125,6 @@ export function VerTurnos() {
     return fechaTurno >= hoy;
   };
 
-  // Primero filtrar por fecha
   let turnosFiltrados = turnos.filter((turno) => {
     if (filtroFecha === "todos") {
       return esFechaFutura(turno.fecha);
@@ -258,9 +257,7 @@ export function VerTurnos() {
             fontWeight: 500,
           }}
         >
-          {turnosOrdenados.length} turno
-          {turnosOrdenados.length !== 1 ? "s" : ""} próximo
-          {turnosOrdenados.length !== 1 ? "s" : ""}
+          {turnosOrdenados.length} TURNOS
         </p>
       </div>
 
@@ -314,7 +311,7 @@ export function VerTurnos() {
               transition: "all 0.2s",
             }}
           >
-            📅 Hoy
+             HOY
           </button>
           <button
             onClick={() => setFiltroFecha("todos")}
@@ -331,29 +328,10 @@ export function VerTurnos() {
               transition: "all 0.2s",
             }}
           >
-            📋 Todos los próximos
+             TODOS
           </button>
         </div>
-        <input
-          type="date"
-          value={fechaPersonalizada}
-          onChange={(e) => {
-            setFechaPersonalizada(e.target.value);
-            setFiltroFecha("personalizada");
-          }}
-          min={getHoy()}
-          style={{
-            width: "100%",
-            padding: "10px 12px",
-            border: "1.5px solid #e1e5e9",
-            borderRadius: "10px",
-            fontSize: "15px",
-            fontFamily: "inherit",
-            backgroundColor: "#f8fafc",
-            outline: "none",
-            boxSizing: "border-box",
-          }}
-        />
+     
       </div>
 
       <div
