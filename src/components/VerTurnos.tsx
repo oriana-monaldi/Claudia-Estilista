@@ -11,38 +11,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 export function VerTurnos() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [showReciente, setShowReciente] = useState(true);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [turnos, setTurnos] = useState<Turno[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [filtroFecha, setFiltroFecha] = useState<string>("hoy");
-  const [fechaPersonalizada, setFechaPersonalizada] = useState<string>("");
-  const [busquedaNombre, setBusquedaNombre] = useState<string>("");
-  useEffect(() => {
-    if (location.state && showReciente) {
-      const { nombre, fecha } = location.state as {
-        nombre?: string;
-        fecha?: string;
-      };
-      if (nombre) setBusquedaNombre(nombre);
-      if (fecha) {
-        const [year, month, day] = fecha.split("-");
-        setSelectedDate(new Date(Number(year), Number(month) - 1, Number(day)));
-      }
-      setShowReciente(false);
-    } else if (!location.state && showReciente) {
-      setBusquedaNombre("");
-      const hoy = new Date();
-      setSelectedDate(
-        new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
-      );
-      setShowReciente(false);
-    }
-  }, [location.state, showReciente]);
-
   const cargarTurnos = async () => {
     setLoading(true);
     try {
@@ -108,6 +76,37 @@ export function VerTurnos() {
       });
     }
   };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showReciente, setShowReciente] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [turnos, setTurnos] = useState<Turno[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [filtroFecha, setFiltroFecha] = useState<string>("hoy");
+  const [fechaPersonalizada, setFechaPersonalizada] = useState<string>("");
+  const [busquedaNombre, setBusquedaNombre] = useState<string>("");
+  useEffect(() => {
+    if (location.state && showReciente) {
+      const { nombre, fecha } = location.state as {
+        nombre?: string;
+        fecha?: string;
+      };
+      if (nombre) setBusquedaNombre(nombre);
+      if (fecha) {
+        const [year, month, day] = fecha.split("-");
+        setSelectedDate(new Date(Number(year), Number(month) - 1, Number(day)));
+      }
+      setShowReciente(false);
+    } else if (!location.state && showReciente) {
+      setBusquedaNombre("");
+      const hoy = new Date();
+      setSelectedDate(
+        new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())
+      );
+      setShowReciente(false);
+    }
+  }, [location.state, showReciente]);
 
   const getHoy = () => {
     const today = new Date();
@@ -136,7 +135,6 @@ export function VerTurnos() {
     return true;
   });
 
-  // Luego filtrar por nombre o apellido si corresponde
   if (busquedaNombre.trim()) {
     const nombreBusqueda = busquedaNombre.toLowerCase().trim();
     turnosFiltrados = turnosFiltrados.filter((turno) => {
@@ -266,34 +264,13 @@ export function VerTurnos() {
           background: "#fff",
           borderRadius: "12px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
-          padding: "16px 12px 12px 12px",
+          padding: "4px 6px 6px 6px",
           marginBottom: "18px",
           display: "flex",
           flexDirection: "column",
           gap: "10px",
         }}
       >
-        <h4 style={{ margin: "0 0 4px 0", fontWeight: 700 }}>
-          Filtrar por nombre o apellido
-        </h4>
-        <input
-          type="text"
-          placeholder="🔎 Filtrar por nombre o apellido"
-          value={busquedaNombre}
-          onChange={(e) => setBusquedaNombre(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px 14px",
-            border: "1.5px solid #e1e5e9",
-            borderRadius: "10px",
-            fontSize: "15px",
-            fontFamily: "inherit",
-            backgroundColor: "#f8fafc",
-            outline: "none",
-            boxSizing: "border-box",
-            marginBottom: "2px",
-          }}
-        />
         <h5>Filtrar por:</h5>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <button
@@ -311,7 +288,7 @@ export function VerTurnos() {
               transition: "all 0.2s",
             }}
           >
-             HOY
+            HOY
           </button>
           <button
             onClick={() => setFiltroFecha("todos")}
@@ -328,10 +305,28 @@ export function VerTurnos() {
               transition: "all 0.2s",
             }}
           >
-             TODOS
+            TODOS
           </button>
         </div>
-     
+
+        <input
+          type="text"
+          placeholder="Buscar por nombre o apellido"
+          value={busquedaNombre}
+          onChange={(e) => setBusquedaNombre(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px 14px",
+            border: "1.5px solid #e1e5e9",
+            borderRadius: "10px",
+            fontSize: "15px",
+            fontFamily: "inherit",
+            backgroundColor: "#f8fafc",
+            outline: "none",
+            boxSizing: "border-box",
+            marginBottom: "2px",
+          }}
+        />
       </div>
 
       <div
@@ -471,15 +466,24 @@ export function VerTurnos() {
                 target.style.transform = "scale(1)";
               }}
             >
-              <div style={{ marginBottom: "20px" }}>
+              {/* Header con nombre del cliente y botones */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  marginBottom: "20px",
+                  gap: "12px",
+                }}
+              >
                 <h3
                   style={{
                     fontSize: "20px",
                     fontWeight: "700",
                     color: "#1e293b",
-                    margin: "0 0 12px 0",
+                    margin: "0",
                     lineHeight: "1.3",
-                    maxWidth: "100%",
+                    flex: "1",
                     overflow: "hidden",
                     whiteSpace: "normal",
                     wordBreak: "break-word",
@@ -488,118 +492,283 @@ export function VerTurnos() {
                   {turno.nombre}
                 </h3>
 
+                {/* Botones de acción */}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    flexShrink: 0,
+                  }}
+                >
+                  {/* Editar */}
+                  <button
+                    onClick={() =>
+                      navigate("/modificar-turno", { state: { turno } })
+                    }
+                    style={{
+                      height: "36px",
+                      width: "36px",
+                      background: "#f1f5f9",
+                      color: "#2563eb",
+                      border: "1.5px solid #cbd5e1",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.2s",
+                      boxShadow: "none",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={(e) => {
+                      const target = e.target as HTMLButtonElement;
+                      target.style.background = "#e0e7ef";
+                      target.style.color = "#1d4ed8";
+                    }}
+                    onMouseLeave={(e) => {
+                      const target = e.target as HTMLButtonElement;
+                      target.style.background = "#f1f5f9";
+                      target.style.color = "#2563eb";
+                    }}
+                    aria-label="Editar turno"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 20h9" />
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+                    </svg>
+                  </button>
+
+                  {/* Eliminar */}
+                  <button
+                    onClick={() => handleDelete(turno.id)}
+                    disabled={deletingId === turno.id}
+                    style={{
+                      height: "36px",
+                      width: "36px",
+                      background: "#f1f5f9",
+                      color: "#ef4444",
+                      border: "1.5px solid #cbd5e1",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.2s",
+                      boxShadow: "none",
+                      fontSize: "16px",
+                      cursor:
+                        deletingId === turno.id ? "not-allowed" : "pointer",
+                      opacity: deletingId === turno.id ? 0.6 : 1,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (deletingId !== turno.id) {
+                        const target = e.target as HTMLButtonElement;
+                        target.style.background = "#fef2f2";
+                        target.style.color = "#b91c1c";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (deletingId !== turno.id) {
+                        const target = e.target as HTMLButtonElement;
+                        target.style.background = "#f1f5f9";
+                        target.style.color = "#ef4444";
+                      }
+                    }}
+                    aria-label="Eliminar turno"
+                  >
+                    {deletingId === turno.id ? (
+                      <div
+                        style={{
+                          width: 18,
+                          height: 18,
+                          border: "2px solid #64748b",
+                          borderTop: "2px solid transparent",
+                          borderRadius: "50%",
+                          animation: "spin 1s linear infinite",
+                        }}
+                      />
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Fecha y hora */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "16px",
+                  marginBottom: "16px",
+                  flexWrap: "wrap",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "12px",
-                    flexWrap: "wrap",
+                    gap: "6px",
+                    backgroundColor:
+                      turno.fecha === getHoy() ? "#ecfdf5" : "#f8fafc",
+                    padding: "8px 12px",
+                    borderRadius: "12px",
+                    border:
+                      turno.fecha === getHoy() ? "1px solid #a7f3d0" : "none",
                   }}
                 >
-                  <div
+                  <span style={{ fontSize: "16px" }}>📅</span>
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      backgroundColor:
-                        turno.fecha === getHoy() ? "#ecfdf5" : "#f8fafc",
-                      padding: "8px 12px",
-                      borderRadius: "12px",
-                      border:
-                        turno.fecha === getHoy() ? "1px solid #a7f3d0" : "none",
+                      fontSize: "15px",
+                      fontWeight: "600",
+                      color: turno.fecha === getHoy() ? "#065f46" : "#475569",
                     }}
                   >
-                    <span style={{ fontSize: "16px" }}>📅</span>
-                    <span
-                      style={{
-                        fontSize: "15px",
-                        fontWeight: "600",
-                        color: turno.fecha === getHoy() ? "#065f46" : "#475569",
-                      }}
-                    >
-                      {(() => {
-                        if (!turno.fecha || typeof turno.fecha !== "string")
-                          return turno.fecha || "Sin fecha";
-                        const parts = turno.fecha.split("-");
-                        if (parts.length !== 3) return turno.fecha;
-                        const [year, month, day] = parts;
-                        return `${day}/${month}/${year}`;
-                      })()}
-                      {turno.fecha === getHoy() && (
-                        <span
-                          style={{
-                            marginLeft: "6px",
-                            fontSize: "12px",
-                            backgroundColor: "#10b981",
-                            color: "white",
-                            padding: "2px 6px",
-                            borderRadius: "6px",
-                            fontWeight: "700",
-                          }}
-                        >
-                          HOY
-                        </span>
-                      )}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      backgroundColor: "#f8fafc",
-                      padding: "8px 12px",
-                      borderRadius: "12px",
-                    }}
-                  >
-                    <span style={{ fontSize: "16px" }}>🕐</span>
-                    <span
-                      style={{
-                        fontSize: "15px",
-                        fontWeight: "600",
-                        color: "#475569",
-                      }}
-                    >
-                      {turno.hora}
-                    </span>
-                  </div>
+                    {(() => {
+                      if (!turno.fecha || typeof turno.fecha !== "string")
+                        return turno.fecha || "Sin fecha";
+                      const parts = turno.fecha.split("-");
+                      if (parts.length !== 3) return turno.fecha;
+                      const [year, month, day] = parts;
+                      return `${day}/${month}/${year}`;
+                    })()}
+                    {turno.fecha === getHoy() && (
+                      <span
+                        style={{
+                          marginLeft: "6px",
+                          fontSize: "12px",
+                          backgroundColor: "#10b981",
+                          color: "white",
+                          padding: "2px 6px",
+                          borderRadius: "6px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        HOY
+                      </span>
+                    )}
+                  </span>
                 </div>
 
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "16px",
+                    gap: "6px",
+                    backgroundColor: "#f8fafc",
+                    padding: "8px 12px",
+                    borderRadius: "12px",
                   }}
                 >
-                  <span style={{ fontSize: "16px" }}></span>
+                  <span style={{ fontSize: "16px" }}>🕐</span>
                   <span
                     style={{
                       fontSize: "15px",
-                      color: "#64748b",
-                      fontWeight: "500",
-                      maxWidth: "180px",
-                      overflow: "hidden",
-                      whiteSpace: "normal",
-                      wordBreak: "break-word",
-                      display: "inline-block",
-                      verticalAlign: "bottom",
+                      fontWeight: "600",
+                      color: "#475569",
                     }}
                   >
-                    {turno.telefono}
+                    {turno.hora}
                   </span>
                 </div>
               </div>
 
+              {/* WhatsApp */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "16px",
+                }}
+              >
+                <a
+                  href={`https://wa.me/${turno.telefono.replace(/[^\d]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    background: "#e0f7ec",
+                    transition: "background 0.2s",
+                    textDecoration: "none",
+                  }}
+                  aria-label="Contactar por WhatsApp"
+                  title="Contactar por WhatsApp"
+                  onMouseEnter={(e) => {
+                    const target = e.currentTarget as HTMLAnchorElement;
+                    target.style.background = "#25D36622";
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.currentTarget as HTMLAnchorElement;
+                    target.style.background = "#e0f7ec";
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.85 0-3.67-.5-5.24-1.44l-.37-.22-3.69.97.99-3.59-.24-.37A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.6c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.62-.47-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.34-.26.27-1 1-.97 2.43.03 1.43 1.03 2.81 1.18 3 .15.19 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.56-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.19-.53-.33z"
+                      fill="#25D366"
+                    />
+                  </svg>
+                </a>
+                <span
+                  style={{
+                    fontSize: "15px",
+                    color: "#64748b",
+                    fontWeight: "500",
+                    maxWidth: "180px",
+                    overflow: "hidden",
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    display: "inline-block",
+                    verticalAlign: "bottom",
+                  }}
+                >
+                  {turno.telefono}
+                </span>
+              </div>
+
+              {/* Servicio solicitado */}
               <div
                 style={{
                   backgroundColor: "#f8fafc",
                   padding: "16px",
                   borderRadius: "16px",
-                  marginBottom: "20px",
                 }}
               >
                 <div
@@ -646,106 +815,9 @@ export function VerTurnos() {
               <div
                 style={{
                   display: "flex",
-                  gap: "12px",
+                  gap: "8px",
                 }}
-              >
-                <button
-                  onClick={() =>
-                    navigate("/modificar-turno", { state: { turno } })
-                  }
-                  style={{
-                    flex: "1",
-                    padding: "14px",
-                    backgroundColor: "#000",
-                    color: "#fff",
-                    border: "1.5px solid #222",
-                    borderRadius: "14px",
-                    fontSize: "15px",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                  }}
-                  onMouseEnter={(e) => {
-                    const target = e.target as HTMLButtonElement;
-                    target.style.backgroundColor = "#2563eb";
-                    target.style.transform = "translateY(-1px)";
-                    target.style.boxShadow =
-                      "0 4px 12px rgba(59, 130, 246, 0.4)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const target = e.target as HTMLButtonElement;
-                    target.style.backgroundColor = "#3b82f6";
-                    target.style.transform = "translateY(0)";
-                    target.style.boxShadow =
-                      "0 2px 8px rgba(59, 130, 246, 0.3)";
-                  }}
-                >
-                  Editar
-                </button>
-
-                <button
-                  onClick={() => handleDelete(turno.id)}
-                  disabled={deletingId === turno.id}
-                  style={{
-                    flex: "1",
-                    padding: "14px",
-                    backgroundColor:
-                      deletingId === turno.id ? "#e5e7eb" : "#ef4444",
-                    color: deletingId === turno.id ? "#222" : "#fff",
-                    border: "1.5px solid #ef4444",
-                    borderRadius: "14px",
-                    fontSize: "15px",
-                    fontWeight: "600",
-                    cursor: deletingId === turno.id ? "not-allowed" : "pointer",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    boxShadow:
-                      deletingId === turno.id
-                        ? "none"
-                        : "0 2px 8px rgba(239,68,68,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (deletingId !== turno.id) {
-                      const target = e.target as HTMLButtonElement;
-                      target.style.backgroundColor = "#dc2626";
-                      target.style.transform = "translateY(-1px)";
-                      target.style.boxShadow =
-                        "0 4px 12px rgba(239, 68, 68, 0.4)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (deletingId !== turno.id) {
-                      const target = e.target as HTMLButtonElement;
-                      target.style.backgroundColor = "#ef4444";
-                      target.style.transform = "translateY(0)";
-                      target.style.boxShadow =
-                        "0 2px 8px rgba(239, 68, 68, 0.3)";
-                    }
-                  }}
-                >
-                  {deletingId === turno.id ? (
-                    <>
-                      <div
-                        style={{
-                          display: "inline-block",
-                          width: "16px",
-                          height: "16px",
-                          border: "2px solid #64748b",
-                          borderTop: "2px solid transparent",
-                          borderRadius: "50%",
-                          animation: "spin 1s linear infinite",
-                          marginRight: "8px",
-                        }}
-                      ></div>
-                      Eliminando...
-                    </>
-                  ) : (
-                    <> Eliminar</>
-                  )}
-                </button>
-              </div>
+              ></div>
             </div>
           ))}
         </div>
