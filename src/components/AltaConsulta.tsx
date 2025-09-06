@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -13,7 +14,68 @@ const initialForm: Omit<ConsultaCliente, "id"> = {
 
 export default function AltaConsulta() {
   const [form, setForm] = useState(initialForm);
+  const [focusedInput, setFocusedInput] = useState<string | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
   const navigate = useNavigate();
+
+  const inputStyle = {
+    width: "100%",
+    padding: "14px 16px",
+    marginBottom: "16px",
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: "#e1e5e9",
+    borderRadius: "12px",
+    fontSize: "16px",
+    fontFamily: "inherit",
+    backgroundColor: "#fff",
+    transition: "all 0.2s ease",
+    outline: "none",
+    boxSizing: "border-box" as const,
+  };
+  const inputFocusStyle = {
+    borderColor: "#3b82f6",
+    boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1)",
+  };
+  const containerStyle = {
+    width: "100%",
+    maxWidth: "400px",
+    margin: "0 auto",
+    padding: "24px",
+    backgroundColor: "#fff",
+    borderRadius: "16px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    boxSizing: "border-box" as const,
+    zIndex: 2,
+  };
+  const buttonStyle = {
+    width: "100%",
+    padding: "16px",
+    backgroundColor: "#3b82f6",
+    color: "white",
+    border: "none",
+    borderRadius: "12px",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    marginTop: "8px",
+    boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)",
+  };
+  const buttonHoverStyle = {
+    backgroundColor: "#2563eb",
+    transform: "translateY(-1px)",
+    boxShadow: "0 6px 16px rgba(59, 130, 246, 0.4)",
+  };
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontSize: "14px",
+    fontWeight: "500",
+    color: "#4a5568",
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,9 +85,7 @@ export default function AltaConsulta() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // setLoading(true);
     addConsulta(form);
-    // setLoading(false);
     Swal.fire({
       title: "Consulta registrada!",
       icon: "success",
@@ -36,69 +96,135 @@ export default function AltaConsulta() {
   };
 
   return (
-    <div style={{ maxWidth: 480, margin: "0 auto", padding: 16 }}>
-      <h2>Nueva Consulta</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="input-principal"
-          name="nombreCompleto"
-          value={form.nombreCompleto}
-          onChange={handleChange}
-          placeholder="Nombre y apellido"
-          required
-        />
-        <input
-          className="input-principal"
-          name="colorTintura"
-          value={form.colorTintura}
-          onChange={handleChange}
-          placeholder="Color de tintura"
-        />
-        <textarea
-          className="input-principal"
-          name="notaAdicional"
-          value={form.notaAdicional}
-          onChange={handleChange}
-          placeholder="Nota adicional"
-        />
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+        background: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "32px 0",
+      }}
+    >
+      <div style={containerStyle}>
         <button
-          type="submit"
-          style={{
-            background: "#ff6b9d",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            padding: "12px 24px",
-            fontWeight: 700,
-            fontSize: 16,
-            cursor: "pointer",
-            width: "100%",
-            marginTop: 8,
-            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-          }}
-        >
-          Registrar Consulta
-        </button>
-        <button
-          type="button"
           onClick={() => navigate("/consultas")}
           style={{
-            background: "#eee",
-            color: "#333",
+            position: "relative",
+            top: 0,
+            left: 0,
+            background: "#fff",
             border: "none",
-            borderRadius: 8,
-            padding: "12px 24px",
-            fontWeight: 700,
-            fontSize: 16,
+            color: "#000",
+            fontSize: 28,
             cursor: "pointer",
-            width: "100%",
-            marginTop: 8,
-            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+            zIndex: 100,
+            padding: 4,
+            borderRadius: 24,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+          aria-label="Volver a Consultas"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="#000"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <h2
+          style={{
+            color: "#3b82f6",
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 24,
+            fontSize: "24px",
+            letterSpacing: "1px",
           }}
         >
-          Cancelar
-        </button>
-      </form>
+          NUEVA CONSULTA
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <label style={labelStyle}>👤 Nombre y apellido</label>
+          <input
+            name="nombreCompleto"
+            placeholder="Nombre y apellido"
+            value={form.nombreCompleto}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("nombreCompleto")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "nombreCompleto" ? inputFocusStyle : {}),
+            }}
+          />
+          <label style={labelStyle}>🎨 Color de tintura</label>
+          <input
+            name="colorTintura"
+            placeholder="Color de tintura"
+            value={form.colorTintura}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("colorTintura")}
+            onBlur={() => setFocusedInput(null)}
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "colorTintura" ? inputFocusStyle : {}),
+            }}
+          />
+          <label style={labelStyle}>📝 Nota adicional</label>
+          <textarea
+            name="notaAdicional"
+            placeholder="Nota adicional"
+            value={form.notaAdicional}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("notaAdicional")}
+            onBlur={() => setFocusedInput(null)}
+            style={{
+              ...inputStyle,
+              minHeight: "80px",
+              resize: "vertical",
+              ...(focusedInput === "notaAdicional" ? inputFocusStyle : {}),
+            }}
+          />
+          <button
+            type="submit"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            style={{
+              ...buttonStyle,
+              ...(isHovering ? buttonHoverStyle : {}),
+            }}
+          >
+            Registrar Consulta
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/consultas")}
+            style={{
+              ...buttonStyle,
+              backgroundColor: "#eee",
+              color: "#333",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+            }}
+          >
+            Cancelar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -168,7 +168,7 @@ export default function Consultas() {
                   }}
                 >
                   <div
-                    style={{ fontWeight: 700, fontSize: 18, color: "#ff6b9d" }}
+                    style={{ fontWeight: 700, fontSize: 18, color: "#3b82f6" }}
                   >
                     {c.nombreCompleto}
                   </div>
@@ -187,7 +187,7 @@ export default function Consultas() {
                     <button
                       onClick={() => handleEdit(c)}
                       style={{
-                        background: "#ff6b9d",
+                        background: "#3b82f6",
                         color: "#fff",
                         border: "none",
                         borderRadius: 6,
@@ -271,7 +271,7 @@ export default function Consultas() {
               type="submit"
               disabled={loading}
               style={{
-                background: "#ff6b9d",
+                background: "#3b82f6",
                 color: "#fff",
                 border: "none",
                 borderRadius: 8,
@@ -321,7 +321,7 @@ export default function Consultas() {
           width: 56,
           height: 56,
           borderRadius: "50%",
-          background: "#ff6b9d",
+          background: "#3b82f6",
           color: "#fff",
           fontSize: 36,
           border: "none",
