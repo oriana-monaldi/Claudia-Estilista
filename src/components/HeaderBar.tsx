@@ -9,8 +9,9 @@ export function HeaderBar({ children }: HeaderBarProps) {
     <div
       style={{
         textAlign: "center" as const,
-        marginBottom: "24px",
-        padding: "12px 0",
+        marginBottom: "20px",
+        padding: "10px ",
+        marginTop: "20px",
         background: "#ff6b9d",
         borderRadius: "12px",
         color: "#fff",

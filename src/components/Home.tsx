@@ -124,6 +124,15 @@ const Home: React.FC = () => {
           >
             AÑADIR NUEVO TURNO
           </button>
+          
+          <button
+            style={getButtonStyle("add")}
+            onClick={() => navigate("/consultas")}
+            onMouseEnter={() => setHoveredButton("add")}
+            onMouseLeave={() => setHoveredButton(null)}
+          >   
+          CONSULTAS          
+          </button>
         </div>
       </div>
     </div>

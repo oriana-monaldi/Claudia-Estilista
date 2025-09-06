@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { AltaTurno } from "./components/AltaTurno";
+import AltaConsulta from "./components/AltaConsulta";
 import { VerTurnos } from "./components/VerTurnos";
 import { ModificarTurno } from "./components/ModificarTurno";
+import Consultas from "./components/Consultas";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./components/Home";
+import EditarConsulta from "./components/EditarConsulta";
 
 const estilosInputs = `
   .input-principal {
@@ -105,8 +108,8 @@ function App() {
     <BrowserRouter>
       <style>{`
         html, body {
-          background: #000 !important;
-          color: #fff !important;
+          background: #fff !important;
+          color: #000 !important;
           min-height: 100vh;
           width: 100vw;
           margin: 0;
@@ -125,7 +128,7 @@ function App() {
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "0",
-          background: "#000",
+          background: "#fff",
           minHeight: "100svh",
           overflowX: "hidden",
           overflowY: "auto",
@@ -133,6 +136,10 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/alta-consulta"
+            element={<AltaConsulta />}
+          />
           <Route
             path="/alta-turno"
             element={
@@ -151,7 +158,6 @@ function App() {
                   justifyContent: "center",
                 }}
               >
-              
                 <AltaTurno onTurnoRegistrado={refrescarLista} />
               </section>
             }
@@ -179,6 +185,8 @@ function App() {
               <ModificarTurnoWrapper onTurnoActualizado={refrescarLista} />
             }
           />
+          <Route path="/consultas" element={<Consultas />} />
+          <Route path="/editar-consulta/:id" element={<EditarConsulta />} />
         </Routes>
       </div>
     </BrowserRouter>
