@@ -169,6 +169,43 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
       }}
     >
       <div style={containerStyle}>
+        <button
+          onClick={() => navigate("/")}
+          style={{
+            position: "relative",
+            top: 0,
+            left: 0,
+            background: "#fff",
+            border: "none",
+            color: "#000",
+            fontSize: 28,
+            cursor: "pointer",
+            zIndex: 100,
+            padding: 4,
+            borderRadius: 24,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+          aria-label="Volver al Home"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="#000"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         <h2
           style={{
             color: "#111",

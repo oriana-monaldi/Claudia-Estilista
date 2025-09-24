@@ -5,6 +5,7 @@ import type { Turno } from "../types";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { getTurnos, deleteTurno } from "../assets/utils/localStorageTurnos";
+import { HeaderBar } from "./HeaderBar";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -232,65 +233,120 @@ export function VerTurnos() {
     >
       <div
         style={{
-          padding: "10px 0 0 0",
+          padding: "16px",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
           maxWidth: "480px",
           margin: "0 auto",
           background: "#fff",
           minHeight: "100vh",
-          borderRadius: "0 0 24px 24px",
+          position: "relative",
         }}
       >
-        <h2
+        <button
+          onClick={() => navigate("/")}
           style={{
-            fontSize: "22px",
-            fontWeight: 800,
-            color: "#222",
-            margin: 0,
-            letterSpacing: "1px",
+            position: "relative",
+            top: 0,
+            left: 0,
+            background: "#fff",
+            border: "none",
+            color: "#000",
+            fontSize: 28,
+            cursor: "pointer",
+            zIndex: 100,
+            padding: 4,
+            borderRadius: 24,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: 8,
           }}
+          aria-label="Volver al Home"
         >
-          ✂️ {getTituloFiltro()}
-        </h2>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="#000"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <HeaderBar>
+          <span style={{ fontSize: 16 }}>✂️ {getTituloFiltro()}</span>
+        </HeaderBar>
         <p
           style={{
             fontSize: "14px",
             color: "#64748b",
-            margin: 0,
+            margin: "16px 0",
             fontWeight: 500,
           }}
         >
           {turnosOrdenados.length} TURNOS
         </p>
+        <div style={{ margin: "16px 0" }}>
+          <input
+            type="text"
+            placeholder="Buscar por nombre o apellido"
+            value={busquedaNombre}
+            onChange={(e) => setBusquedaNombre(e.target.value)}
+            className="input-principal"
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              marginBottom: "16px",
+              borderWidth: "2px",
+              borderStyle: "solid",
+              borderColor: "#e1e5e9",
+              borderRadius: "12px",
+              fontSize: "16px",
+              fontFamily: "inherit",
+              backgroundColor: "#fff",
+              transition: "all 0.2s ease",
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
         <div
           style={{
             background: "#f8fafc",
             borderRadius: "12px",
             boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-            padding: "4px 6px 6px 6px",
+            padding: "16px",
             marginBottom: "18px",
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
-            border: "1.5px solid #e2e8f0",
+            gap: "12px",
+            border: "2px solid #e1e5e9",
           }}
         >
-          <h5 style={{ color: "#222", margin: 0 }}>Filtrar por:</h5>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <h5 style={{ color: "#222", margin: 0, fontSize: "14px", fontWeight: "600" }}>Filtrar por fecha:</h5>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => setFiltroFecha("hoy")}
               style={{
-                padding: "8px 12px",
-                backgroundColor: filtroFecha === "hoy" ? "#222" : "#fff",
+                flex: 1,
+                padding: "12px 16px",
+                backgroundColor: filtroFecha === "hoy" ? "#ff6b9d" : "#fff",
                 color: filtroFecha === "hoy" ? "#fff" : "#222",
-                border: "1.5px solid #222",
-                borderRadius: "10px",
-                fontSize: "13px",
+                border: "2px solid #ff6b9d",
+                borderRadius: "12px",
+                fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
                 outline: "none",
-                transition: "all 0.2s",
+                transition: "all 0.2s ease",
+                boxShadow: filtroFecha === "hoy" ? "0 4px 12px rgba(255, 107, 157, 0.3)" : "0 2px 8px rgba(0,0,0,0.06)",
               }}
             >
               HOY
@@ -298,41 +354,23 @@ export function VerTurnos() {
             <button
               onClick={() => setFiltroFecha("todos")}
               style={{
-                padding: "8px 12px",
-                backgroundColor: filtroFecha === "todos" ? "#222" : "#fff",
+                flex: 1,
+                padding: "12px 16px",
+                backgroundColor: filtroFecha === "todos" ? "#ff6b9d" : "#fff",
                 color: filtroFecha === "todos" ? "#fff" : "#222",
-                border: "1.5px solid #222",
-                borderRadius: "10px",
-                fontSize: "13px",
+                border: "2px solid #ff6b9d",
+                borderRadius: "12px",
+                fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
                 outline: "none",
-                transition: "all 0.2s",
+                transition: "all 0.2s ease",
+                boxShadow: filtroFecha === "todos" ? "0 4px 12px rgba(255, 107, 157, 0.3)" : "0 2px 8px rgba(0,0,0,0.06)",
               }}
             >
               TODOS
             </button>
           </div>
-
-          <input
-            type="text"
-            placeholder="Buscar por nombre o apellido"
-            value={busquedaNombre}
-            onChange={(e) => setBusquedaNombre(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px 14px",
-              border: "1.5px solid #e2e8f0",
-              borderRadius: "10px",
-              fontSize: "15px",
-              fontFamily: "inherit",
-              backgroundColor: "#fff",
-              color: "#222",
-              outline: "none",
-              boxSizing: "border-box",
-              marginBottom: "2px",
-            }}
-          />
         </div>
 
         <div
