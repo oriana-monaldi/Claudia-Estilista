@@ -20,16 +20,16 @@ const estilosInputs = `
     border-radius: 12px;
     box-sizing: border-box;
     transition: all 0.3s ease;
-    background: #222;
-    border: none;
-    color: #fff;
+    background: #fff;
+    border: 2px solid #e1e5e9;
+    color: #333;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   .input-principal:focus {
     outline: none;
     border: none;
-    box-shadow: 0 0 0 2px #ff6b9d;
+    box-shadow: 0 0 0 2px #BBA2A0;
     transform: translateY(-1px);
   }
   
@@ -41,9 +41,9 @@ const estilosInputs = `
     font-size: 16px;
     border-radius: 12px;
     box-sizing: border-box;
-    background: #222;
-    border: none;
-    color: #fff;
+    background: #fff;
+    border: 2px solid #e1e5e9;
+    color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -52,7 +52,7 @@ const estilosInputs = `
   .select-principal:focus {
     outline: none;
     border: none;
-    box-shadow: 0 0 0 2px #ff6b9d;
+    box-shadow: 0 0 0 2px #BBA2A0;
     transform: translateY(-1px);
   }
   
@@ -136,10 +136,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/alta-consulta"
-            element={<AltaConsulta />}
-          />
+          <Route path="/alta-consulta" element={<AltaConsulta />} />
           <Route
             path="/alta-turno"
             element={

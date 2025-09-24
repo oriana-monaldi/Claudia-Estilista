@@ -51,7 +51,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
         title: "Fecha inválida",
         text: "No se puede crear un turno en una fecha menor a hoy.",
         confirmButtonText: "Aceptar",
-        confirmButtonColor: "#ef4444",
+        confirmButtonColor: "#BBA2A0",
         timer: 5000,
         timerProgressBar: true,
         showConfirmButton: true,
@@ -89,8 +89,8 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
   };
 
   const inputFocusStyle = {
-    borderColor: "#ff6b9d",
-    boxShadow: "0 0 0 3px rgba(255, 107, 157, 0.1)",
+    borderColor: "#BBA2A0",
+    boxShadow: "0 0 0 3px rgba(187, 162, 160, 0.1)",
   };
   const containerStyle = {
     width: "100%",
@@ -109,7 +109,7 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
   const buttonStyle = {
     width: "100%",
     padding: "16px",
-    backgroundColor: "#ff6b9d",
+    backgroundColor: "#BBA2A0",
     color: "white",
     border: "none",
     borderRadius: "12px",
@@ -118,13 +118,13 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
     cursor: "pointer",
     transition: "all 0.2s ease",
     marginTop: "8px",
-    boxShadow: "0 4px 12px rgba(255, 107, 157, 0.3)",
+    boxShadow: "0 4px 12px rgba(187, 162, 160, 0.3)",
   };
 
   const buttonHoverStyle = {
-    backgroundColor: "#e55a87",
+    backgroundColor: "#A08E8D",
     transform: "translateY(-1px)",
-    boxShadow: "0 6px 16px rgba(255, 107, 157, 0.4)",
+    boxShadow: "0 6px 16px rgba(187, 162, 160, 0.4)",
   };
 
   const fechaInputStyle = {

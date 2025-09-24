@@ -12,7 +12,7 @@ export function HeaderBar({ children }: HeaderBarProps) {
         marginBottom: "20px",
         padding: "10px ",
         marginTop: "20px",
-        background: "#ff6b9d",
+        background: "#BBA2A0",
         borderRadius: "12px",
         color: "#fff",
         fontWeight: 600,

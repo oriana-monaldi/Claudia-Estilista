@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -34,8 +33,8 @@ export default function AltaConsulta() {
     boxSizing: "border-box" as const,
   };
   const inputFocusStyle = {
-    borderColor: "#3b82f6",
-    boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1)",
+    borderColor: "#BBA2A0",
+    boxShadow: "0 0 0 3px rgba(187, 162, 160, 0.1)",
   };
   const containerStyle = {
     width: "100%",
@@ -53,7 +52,7 @@ export default function AltaConsulta() {
   const buttonStyle = {
     width: "100%",
     padding: "16px",
-    backgroundColor: "#3b82f6",
+    backgroundColor: "#BBA2A0",
     color: "white",
     border: "none",
     borderRadius: "12px",
@@ -62,12 +61,12 @@ export default function AltaConsulta() {
     cursor: "pointer",
     transition: "all 0.2s ease",
     marginTop: "8px",
-    boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)",
+    boxShadow: "0 4px 12px rgba(187, 162, 160, 0.3)",
   };
   const buttonHoverStyle = {
-    backgroundColor: "#2563eb",
+    backgroundColor: "#A08E8D",
     transform: "translateY(-1px)",
-    boxShadow: "0 6px 16px rgba(59, 130, 246, 0.4)",
+    boxShadow: "0 6px 16px rgba(187, 162, 160, 0.4)",
   };
   const labelStyle = {
     display: "block",
@@ -104,7 +103,7 @@ export default function AltaConsulta() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "32px 0",
+        padding: "16px 0",
       }}
     >
       <div style={containerStyle}>
@@ -147,12 +146,10 @@ export default function AltaConsulta() {
         </button>
         <h2
           style={{
-            color: "#3b82f6",
+            color: "#111",
             fontWeight: 700,
             textAlign: "center",
             marginBottom: 24,
-            fontSize: "24px",
-            letterSpacing: "1px",
           }}
         >
           NUEVA CONSULTA
@@ -210,18 +207,6 @@ export default function AltaConsulta() {
             }}
           >
             Registrar Consulta
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/consultas")}
-            style={{
-              ...buttonStyle,
-              backgroundColor: "#eee",
-              color: "#333",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-            }}
-          >
-            Cancelar
           </button>
         </form>
       </div>

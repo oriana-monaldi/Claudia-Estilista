@@ -314,6 +314,18 @@ export default function Consultas() {
       )}
       <button
         onClick={() => navigate("/alta-consulta")}
+        onMouseEnter={(e) => {
+          const target = e.target as HTMLButtonElement;
+          target.style.background = "#A08E8D";
+          target.style.transform = "scale(1.1)";
+          target.style.boxShadow = "0 4px 16px rgba(187, 162, 160, 0.4)";
+        }}
+        onMouseLeave={(e) => {
+          const target = e.target as HTMLButtonElement;
+          target.style.background = "#BBA2A0";
+          target.style.transform = "scale(1)";
+          target.style.boxShadow = "0 2px 8px rgba(187, 162, 160, 0.3)";
+        }}
         style={{
           position: "fixed",
           bottom: 32,
@@ -321,16 +333,17 @@ export default function Consultas() {
           width: 56,
           height: 56,
           borderRadius: "50%",
-          background: "#3b82f6",
+          background: "#BBA2A0",
           color: "#fff",
           fontSize: 36,
           border: "none",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+          boxShadow: "0 2px 8px rgba(187, 162, 160, 0.3)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           zIndex: 10,
           cursor: "pointer",
+          transition: "all 0.3s ease",
         }}
         aria-label="Agregar clienta"
       >

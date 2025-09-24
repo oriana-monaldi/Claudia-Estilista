@@ -148,7 +148,7 @@ export default function EditarConsulta() {
             type="submit"
             style={{
               width: "100%",
-              background: "#ff6b9d",
+              background: "#BBA2A0",
               color: "#fff",
               fontWeight: 700,
               padding: "12px 0",

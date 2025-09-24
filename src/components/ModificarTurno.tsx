@@ -1,8 +1,6 @@
 "use client";
 
 import type React from "react";
-import { HeaderBar } from "./HeaderBar";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Turno } from "../types";
@@ -47,7 +45,7 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
         title: "Fecha inválida",
         text: "No se puede modificar el turno a una fecha menor a hoy.",
         confirmButtonText: "Aceptar",
-        confirmButtonColor: "#ef4444",
+        confirmButtonColor: "#BBA2A0",
         timer: 5000,
         timerProgressBar: true,
         showConfirmButton: true,
@@ -56,9 +54,7 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     }
     updateTurno({ ...form, id: turno.id });
     onTurnoActualizado();
-    navigate("/ver-turnos", {
-      state: { nombre: form.nombre, fecha: form.fecha },
-    });
+    navigate("/ver-turnos");
   };
 
   const inputStyle = {
@@ -78,8 +74,8 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
   };
 
   const inputFocusStyle = {
-    borderColor: "#ff6b9d",
-    boxShadow: "0 0 0 3px rgba(255, 107, 157, 0.1)",
+    borderColor: "#BBA2A0",
+    boxShadow: "0 0 0 3px rgba(187, 162, 160, 0.1)",
   };
 
   const containerStyle = {
@@ -93,12 +89,13 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     boxSizing: "border-box" as const,
+    zIndex: 2,
   };
 
   const buttonStyle = {
     width: "100%",
     padding: "16px",
-    backgroundColor: "#ff6b9d",
+    backgroundColor: "#BBA2A0",
     color: "white",
     border: "none",
     borderRadius: "12px",
@@ -107,13 +104,13 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
     cursor: "pointer",
     transition: "all 0.2s ease",
     marginTop: "8px",
-    boxShadow: "0 4px 12px rgba(255, 107, 157, 0.3)",
+    boxShadow: "0 4px 12px rgba(187, 162, 160, 0.3)",
   };
 
   const buttonHoverStyle = {
-    backgroundColor: "#e55a87",
+    backgroundColor: "#A08E8D",
     transform: "translateY(-1px)",
-    boxShadow: "0 6px 16px rgba(255, 107, 157, 0.4)",
+    boxShadow: "0 6px 16px rgba(187, 162, 160, 0.4)",
   };
 
   const fechaInputStyle = {
@@ -146,108 +143,164 @@ export function ModificarTurno({ turno, onTurnoActualizado }: Props) {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div style={containerStyle}>
-      <HeaderBar>
-        Modificar turno de{" "}
-        <span style={{ fontWeight: 700 }}>{turno.nombre}</span>
-      </HeaderBar>
-      <form onSubmit={handleSubmit}>
-        <label style={labelStyle}> 👤 Nombre Completo</label>
-        <input
-          name="nombre"
-          placeholder=" Nombre completo"
-          value={form.nombre}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("nombre")}
-          onBlur={() => setFocusedInput(null)}
-          required
-          style={{
-            ...inputStyle,
-            ...(focusedInput === "nombre" ? inputFocusStyle : {}),
-          }}
-        />
-
-        <label style={labelStyle}>📱 Teléfono</label>
-        <input
-          name="telefono"
-          type="tel"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          placeholder=" Teléfono"
-          value={form.telefono}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("telefono")}
-          onBlur={() => setFocusedInput(null)}
-          required
-          style={{
-            ...inputStyle,
-            ...(focusedInput === "telefono" ? inputFocusStyle : {}),
-          }}
-        />
-
-        <label style={labelStyle}>✂️ Servicio a realizarse</label>
-        <input
-          name="servicio"
-          placeholder="Servicio"
-          value={form.servicio}
-          onChange={handleChange}
-          onFocus={() => setFocusedInput("servicio")}
-          onBlur={() => setFocusedInput(null)}
-          required
-          style={{
-            ...inputStyle,
-            ...(focusedInput === "servicio" ? inputFocusStyle : {}),
-          }}
-        />
-
-        <div style={fechaHoraContainerStyle}>
-          <div>
-            <label style={labelStyle}>📅 Fecha</label>
-            <input
-              name="fecha"
-              type="date"
-              value={form.fecha}
-              onChange={handleChange}
-              onFocus={() => setFocusedInput("fecha")}
-              onBlur={() => setFocusedInput(null)}
-              required
-              style={{
-                ...fechaInputStyle,
-                ...(focusedInput === "fecha" ? inputFocusStyle : {}),
-              }}
-            />
-          </div>
-
-          <div>
-            <label style={labelStyle}>🕐 Hora</label>
-            <input
-              name="hora"
-              type="time"
-              value={form.hora}
-              onChange={handleChange}
-              onFocus={() => setFocusedInput("hora")}
-              onBlur={() => setFocusedInput(null)}
-              required
-              style={{
-                ...horaInputStyle,
-                ...(focusedInput === "hora" ? inputFocusStyle : {}),
-              }}
-            />
-          </div>
-        </div>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+        background: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "16px 0",
+      }}
+    >
+      <div style={containerStyle}>
         <button
-          type="submit"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
+          onClick={() => navigate("/ver-turnos")}
           style={{
-            ...buttonStyle,
-            ...(isHovering ? buttonHoverStyle : {}),
+            position: "relative",
+            top: 0,
+            left: 0,
+            background: "#fff",
+            border: "none",
+            color: "#000",
+            fontSize: 28,
+            cursor: "pointer",
+            zIndex: 100,
+            padding: 4,
+            borderRadius: 24,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+          aria-label="Volver a Ver Turnos"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 6L9 12L15 18"
+              stroke="#000"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <h2
+          style={{
+            color: "#111",
+            fontWeight: 700,
+            textAlign: "center",
+            marginBottom: 24,
           }}
         >
-          Guardar Cambios
-        </button>
-      </form>
+          MODIFICAR TURNO DE{" "}
+          <span style={{ fontWeight: 700 }}>{turno.nombre.toUpperCase()}</span>
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <label style={labelStyle}> 👤 Nombre Completo</label>
+          <input
+            name="nombre"
+            placeholder=" Nombre completo"
+            value={form.nombre}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("nombre")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "nombre" ? inputFocusStyle : {}),
+            }}
+          />
+
+          <label style={labelStyle}>📱 Teléfono</label>
+          <input
+            name="telefono"
+            type="tel"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            placeholder=" Teléfono"
+            value={form.telefono}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("telefono")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "telefono" ? inputFocusStyle : {}),
+            }}
+          />
+
+          <label style={labelStyle}>✂️ Servicio a realizarse</label>
+          <input
+            name="servicio"
+            placeholder="Servicio"
+            value={form.servicio}
+            onChange={handleChange}
+            onFocus={() => setFocusedInput("servicio")}
+            onBlur={() => setFocusedInput(null)}
+            required
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "servicio" ? inputFocusStyle : {}),
+            }}
+          />
+
+          <div style={fechaHoraContainerStyle}>
+            <div>
+              <label style={labelStyle}>📅 Fecha</label>
+              <input
+                name="fecha"
+                type="date"
+                value={form.fecha}
+                onChange={handleChange}
+                onFocus={() => setFocusedInput("fecha")}
+                onBlur={() => setFocusedInput(null)}
+                required
+                style={{
+                  ...fechaInputStyle,
+                  ...(focusedInput === "fecha" ? inputFocusStyle : {}),
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>🕐 Hora</label>
+              <input
+                name="hora"
+                type="time"
+                value={form.hora}
+                onChange={handleChange}
+                onFocus={() => setFocusedInput("hora")}
+                onBlur={() => setFocusedInput(null)}
+                required
+                style={{
+                  ...horaInputStyle,
+                  ...(focusedInput === "hora" ? inputFocusStyle : {}),
+                }}
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            style={{
+              ...buttonStyle,
+              ...(isHovering ? buttonHoverStyle : {}),
+            }}
+          >
+            Guardar Cambios
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

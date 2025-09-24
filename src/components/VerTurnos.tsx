@@ -35,6 +35,7 @@ export function VerTurnos() {
       customClass: {
         confirmButton: "swal-btn-confirm",
         cancelButton: "swal-btn-cancel",
+        icon: "swal-warning-icon",
       },
       buttonsStyling: false,
     });
@@ -229,6 +230,10 @@ export function VerTurnos() {
         background: "#fff",
         overflowY: "auto",
         maxHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: "0",
       }}
     >
       <div
@@ -236,11 +241,12 @@ export function VerTurnos() {
           padding: "16px",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          maxWidth: "480px",
-          margin: "0 auto",
+          maxWidth: "400px",
+          width: "100%",
           background: "#fff",
           minHeight: "100vh",
           position: "relative",
+          boxSizing: "border-box",
         }}
       >
         <button
@@ -330,23 +336,35 @@ export function VerTurnos() {
             border: "2px solid #e1e5e9",
           }}
         >
-          <h5 style={{ color: "#222", margin: 0, fontSize: "14px", fontWeight: "600" }}>Filtrar por fecha:</h5>
+          <h5
+            style={{
+              color: "#222",
+              margin: 0,
+              fontSize: "14px",
+              fontWeight: "600",
+            }}
+          >
+            Filtrar por fecha:
+          </h5>
           <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => setFiltroFecha("hoy")}
               style={{
                 flex: 1,
                 padding: "12px 16px",
-                backgroundColor: filtroFecha === "hoy" ? "#ff6b9d" : "#fff",
+                backgroundColor: filtroFecha === "hoy" ? "#BBA2A0" : "#fff",
                 color: filtroFecha === "hoy" ? "#fff" : "#222",
-                border: "2px solid #ff6b9d",
+                border: "2px solid #BBA2A0",
                 borderRadius: "12px",
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
                 outline: "none",
                 transition: "all 0.2s ease",
-                boxShadow: filtroFecha === "hoy" ? "0 4px 12px rgba(255, 107, 157, 0.3)" : "0 2px 8px rgba(0,0,0,0.06)",
+                boxShadow:
+                  filtroFecha === "hoy"
+                    ? "0 4px 12px rgba(187, 162, 160, 0.3)"
+                    : "0 2px 8px rgba(0,0,0,0.06)",
               }}
             >
               HOY
@@ -356,16 +374,19 @@ export function VerTurnos() {
               style={{
                 flex: 1,
                 padding: "12px 16px",
-                backgroundColor: filtroFecha === "todos" ? "#ff6b9d" : "#fff",
+                backgroundColor: filtroFecha === "todos" ? "#BBA2A0" : "#fff",
                 color: filtroFecha === "todos" ? "#fff" : "#222",
-                border: "2px solid #ff6b9d",
+                border: "2px solid #BBA2A0",
                 borderRadius: "12px",
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
                 outline: "none",
                 transition: "all 0.2s ease",
-                boxShadow: filtroFecha === "todos" ? "0 4px 12px rgba(255, 107, 157, 0.3)" : "0 2px 8px rgba(0,0,0,0.06)",
+                boxShadow:
+                  filtroFecha === "todos"
+                    ? "0 4px 12px rgba(187, 162, 160, 0.3)"
+                    : "0 2px 8px rgba(0,0,0,0.06)",
               }}
             >
               TODOS
@@ -481,28 +502,28 @@ export function VerTurnos() {
               onClick={() => navigate("/alta-turno")}
               style={{
                 padding: "18px 36px",
-                backgroundColor: "#ff6b9d",
+                backgroundColor: "#BBA2A0",
                 color: "white",
-                border: "2px solid #ff6b9d",
+                border: "2px solid #BBA2A0",
                 borderRadius: "30px",
                 fontSize: "16px",
                 fontWeight: "700",
                 cursor: "pointer",
-                boxShadow: "0 6px 20px rgba(255, 107, 157, 0.2)",
+                boxShadow: "0 6px 20px rgba(187, 162, 160, 0.2)",
                 transition: "all 0.2s ease",
                 outline: "none",
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLButtonElement;
-                target.style.backgroundColor = "#e55a87";
+                target.style.backgroundColor = "#A08E8D";
                 target.style.transform = "translateY(-3px)";
-                target.style.boxShadow = "0 8px 25px rgba(255, 107, 157, 0.3)";
+                target.style.boxShadow = "0 8px 25px rgba(187, 162, 160, 0.3)";
               }}
               onMouseLeave={(e) => {
                 const target = e.target as HTMLButtonElement;
-                target.style.backgroundColor = "#ff6b9d";
+                target.style.backgroundColor = "#BBA2A0";
                 target.style.transform = "translateY(0)";
-                target.style.boxShadow = "0 6px 20px rgba(255, 107, 157, 0.2)";
+                target.style.boxShadow = "0 6px 20px rgba(187, 162, 160, 0.2)";
               }}
             >
               Agendar Turno
@@ -516,48 +537,91 @@ export function VerTurnos() {
               <div
                 key={turno.id}
                 style={{
-                  background: "#fff",
-                  padding: "18px 14px 16px 14px",
-                  borderRadius: "18px",
-                  boxShadow: "0 6px 24px rgba(0,0,0,0.10)",
-                  border: "1.5px solid #e1e5e9",
-                  transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
-                  marginBottom: 2,
+                  background:
+                    "linear-gradient(135deg, #ffffff 0%, #fefefe 100%)",
+                  padding: "24px 20px",
+                  borderRadius: "20px",
+                  boxShadow:
+                    "0 8px 32px rgba(187, 162, 160, 0.12), 0 2px 8px rgba(0,0,0,0.08)",
+                  border: "1px solid rgba(187, 162, 160, 0.15)",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  marginBottom: 4,
                   position: "relative",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.currentTarget as HTMLDivElement;
+                  target.style.transform = "translateY(-4px)";
+                  target.style.boxShadow =
+                    "0 12px 48px rgba(187, 162, 160, 0.18), 0 4px 16px rgba(0,0,0,0.12)";
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.currentTarget as HTMLDivElement;
+                  target.style.transform = "translateY(0px)";
+                  target.style.boxShadow =
+                    "0 8px 32px rgba(187, 162, 160, 0.12), 0 2px 8px rgba(0,0,0,0.08)";
                 }}
                 onTouchStart={(e) => {
                   const target = e.currentTarget as HTMLDivElement;
-                  target.style.transform = "scale(0.98)";
+                  target.style.transform = "scale(0.98) translateY(-2px)";
                 }}
                 onTouchEnd={(e) => {
                   const target = e.currentTarget as HTMLDivElement;
-                  target.style.transform = "scale(1)";
+                  target.style.transform = "scale(1) translateY(0px)";
                 }}
               >
+                {/* Decoración superior */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "4px",
+                    background: `linear-gradient(90deg, #BBA2A0 0%, rgba(187, 162, 160, 0.7) 50%, #BBA2A0 100%)`,
+                    borderRadius: "20px 20px 0 0",
+                  }}
+                />
+
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "flex-start",
-                    marginBottom: "20px",
+                    marginBottom: "24px",
                     gap: "12px",
                   }}
                 >
-                  <h3
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: "700",
-                      color: "#222",
-                      margin: "0",
-                      lineHeight: "1.3",
-                      flex: "1",
-                      overflow: "hidden",
-                      whiteSpace: "normal",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {turno.nombre}
-                  </h3>
+                  <div style={{ flex: "1" }}>
+                    <h3
+                      style={{
+                        fontSize: "22px",
+                        fontWeight: "800",
+                        color: "#1a1a1a",
+                        margin: "0 0 4px 0",
+                        lineHeight: "1.2",
+                        overflow: "hidden",
+                        whiteSpace: "normal",
+                        wordBreak: "break-word",
+                        background:
+                          "linear-gradient(135deg, #BBA2A0 0%, #A08E8D 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {turno.nombre}
+                    </h3>
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "2px",
+                        background:
+                          "linear-gradient(90deg, #BBA2A0, rgba(187, 162, 160, 0.3))",
+                        borderRadius: "2px",
+                      }}
+                    />
+                  </div>
 
                   <div
                     style={{
@@ -574,28 +638,28 @@ export function VerTurnos() {
                       style={{
                         height: "38px",
                         width: "38px",
-                        background: "#e0e7ef",
-                        color: "#2563eb",
+                        background: "rgba(187, 162, 160, 0.15)",
+                        color: "#BBA2A0",
                         border: "none",
                         borderRadius: "50%",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
-                        boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
+                        boxShadow: "0 2px 8px rgba(187, 162, 160, 0.08)",
                         fontSize: "17px",
                         cursor: "pointer",
                         outline: "none",
                       }}
                       onMouseEnter={(e) => {
                         const target = e.target as HTMLButtonElement;
-                        target.style.background = "#2563eb";
+                        target.style.background = "#BBA2A0";
                         target.style.color = "#fff";
                       }}
                       onMouseLeave={(e) => {
                         const target = e.target as HTMLButtonElement;
-                        target.style.background = "#e0e7ef";
-                        target.style.color = "#2563eb";
+                        target.style.background = "rgba(187, 162, 160, 0.15)";
+                        target.style.color = "#BBA2A0";
                       }}
                       aria-label="Editar turno"
                     >
@@ -623,15 +687,17 @@ export function VerTurnos() {
                         height: "38px",
                         width: "38px",
                         background:
-                          deletingId === turno.id ? "#fef2f2" : "#fff0f3",
-                        color: deletingId === turno.id ? "#b91c1c" : "#ef4444",
+                          deletingId === turno.id
+                            ? "rgba(187, 162, 160, 0.1)"
+                            : "rgba(187, 162, 160, 0.15)",
+                        color: deletingId === turno.id ? "#A08E8D" : "#BBA2A0",
                         border: "none",
                         borderRadius: "50%",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
-                        boxShadow: "0 2px 8px rgba(239,68,68,0.08)",
+                        boxShadow: "0 2px 8px rgba(187, 162, 160, 0.08)",
                         fontSize: "17px",
                         cursor:
                           deletingId === turno.id ? "not-allowed" : "pointer",
@@ -641,15 +707,15 @@ export function VerTurnos() {
                       onMouseEnter={(e) => {
                         if (deletingId !== turno.id) {
                           const target = e.target as HTMLButtonElement;
-                          target.style.background = "#ef4444";
+                          target.style.background = "#BBA2A0";
                           target.style.color = "#fff";
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (deletingId !== turno.id) {
                           const target = e.target as HTMLButtonElement;
-                          target.style.background = "#fff0f3";
-                          target.style.color = "#ef4444";
+                          target.style.background = "rgba(187, 162, 160, 0.15)";
+                          target.style.color = "#BBA2A0";
                         }
                       }}
                       aria-label="Eliminar turno"
@@ -692,8 +758,8 @@ export function VerTurnos() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "16px",
+                    gap: "12px",
+                    marginBottom: "20px",
                     flexWrap: "wrap",
                   }}
                 >
@@ -701,21 +767,27 @@ export function VerTurnos() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "6px",
+                      gap: "8px",
                       backgroundColor:
-                        turno.fecha === getHoy() ? "#ecfdf5" : "#f8fafc",
-                      padding: "8px 12px",
-                      borderRadius: "12px",
+                        turno.fecha === getHoy()
+                          ? "#ecfdf5"
+                          : "rgba(187, 162, 160, 0.08)",
+                      padding: "10px 14px",
+                      borderRadius: "16px",
                       border:
-                        turno.fecha === getHoy() ? "1px solid #a7f3d0" : "none",
+                        turno.fecha === getHoy()
+                          ? "1px solid #a7f3d0"
+                          : "1px solid rgba(187, 162, 160, 0.15)",
+                      backdropFilter: "blur(10px)",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
                     }}
                   >
-                    <span style={{ fontSize: "16px" }}>📅</span>
+                    <span style={{ fontSize: "18px" }}>📅</span>
                     <span
                       style={{
                         fontSize: "15px",
-                        fontWeight: "600",
-                        color: turno.fecha === getHoy() ? "#065f46" : "#475569",
+                        fontWeight: "700",
+                        color: turno.fecha === getHoy() ? "#065f46" : "#4a4a4a",
                       }}
                     >
                       {(() => {
@@ -729,13 +801,14 @@ export function VerTurnos() {
                       {turno.fecha === getHoy() && (
                         <span
                           style={{
-                            marginLeft: "6px",
-                            fontSize: "12px",
+                            marginLeft: "8px",
+                            fontSize: "11px",
                             backgroundColor: "#10b981",
                             color: "white",
-                            padding: "2px 6px",
-                            borderRadius: "6px",
-                            fontWeight: "700",
+                            padding: "3px 8px",
+                            borderRadius: "8px",
+                            fontWeight: "800",
+                            letterSpacing: "0.5px",
                           }}
                         >
                           HOY
@@ -748,18 +821,21 @@ export function VerTurnos() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "6px",
-                      backgroundColor: "#f8fafc",
-                      padding: "8px 12px",
-                      borderRadius: "12px",
+                      gap: "8px",
+                      backgroundColor: "rgba(187, 162, 160, 0.08)",
+                      padding: "10px 14px",
+                      borderRadius: "16px",
+                      border: "1px solid rgba(187, 162, 160, 0.15)",
+                      backdropFilter: "blur(10px)",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
                     }}
                   >
-                    <span style={{ fontSize: "16px" }}>🕐</span>
+                    <span style={{ fontSize: "18px" }}>🕐</span>
                     <span
                       style={{
                         fontSize: "15px",
-                        fontWeight: "600",
-                        color: "#475569",
+                        fontWeight: "700",
+                        color: "#4a4a4a",
                       }}
                     >
                       {turno.hora}
@@ -772,8 +848,12 @@ export function VerTurnos() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "16px",
+                    gap: "12px",
+                    marginBottom: "20px",
+                    padding: "12px 16px",
+                    backgroundColor: "rgba(37, 211, 102, 0.05)",
+                    borderRadius: "16px",
+                    border: "1px solid rgba(37, 211, 102, 0.15)",
                   }}
                 >
                   <a
@@ -787,81 +867,114 @@ export function VerTurnos() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                      background: "#e0f7ec",
-                      border: "1.5px solid #25D366",
-                      transition: "background 0.2s",
+                      width: 44,
+                      height: 44,
+                      borderRadius: "14px",
+                      background:
+                        "linear-gradient(135deg, #25D366 0%, #1da851 100%)",
+                      border: "none",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       textDecoration: "none",
+                      boxShadow: "0 4px 12px rgba(37, 211, 102, 0.3)",
                     }}
                     aria-label="Contactar por WhatsApp"
                     title="Contactar por WhatsApp"
                     onMouseEnter={(e) => {
                       const target = e.currentTarget as HTMLAnchorElement;
-                      target.style.background = "#25D36622";
+                      target.style.transform = "scale(1.05)";
+                      target.style.boxShadow =
+                        "0 6px 20px rgba(37, 211, 102, 0.4)";
                     }}
                     onMouseLeave={(e) => {
                       const target = e.currentTarget as HTMLAnchorElement;
-                      target.style.background = "#e0f7ec";
+                      target.style.transform = "scale(1)";
+                      target.style.boxShadow =
+                        "0 4px 12px rgba(37, 211, 102, 0.3)";
                     }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
-                      fill="none"
+                      fill="white"
                     >
-                      <path
-                        d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.85 0-3.67-.5-5.24-1.44l-.37-.22-3.69.97.99-3.59-.24-.37A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.6c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.62-.47-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.34-.26.27-1 1-.97 2.43.03 1.43 1.03 2.81 1.18 3 .15.19 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.56-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.19-.53-.33z"
-                        fill="#25D366"
-                      />
+                      <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 22c-1.85 0-3.67-.5-5.24-1.44l-.37-.22-3.69.97.99-3.59-.24-.37A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.6c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.62-.47-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.34-.26.27-1 1-.97 2.43.03 1.43 1.03 2.81 1.18 3 .15.19 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.56-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.19-.53-.33z" />
                     </svg>
                   </a>
-                  <span
-                    style={{
-                      fontSize: "15px",
-                      color: "#64748b",
-                      fontWeight: "500",
-                      maxWidth: "180px",
-                      overflow: "hidden",
-                      whiteSpace: "normal",
-                      wordBreak: "break-word",
-                      display: "inline-block",
-                      verticalAlign: "bottom",
-                    }}
-                  >
-                    {turno.telefono}
-                  </span>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        color: "#25D366",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      WhatsApp
+                    </div>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        color: "#2d5016",
+                        fontWeight: "600",
+                        overflow: "hidden",
+                        whiteSpace: "normal",
+                        wordBreak: "break-word",
+                        display: "block",
+                      }}
+                    >
+                      {turno.telefono}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Servicio solicitado */}
                 <div
                   style={{
-                    backgroundColor: "#f8fafc",
-                    padding: "16px",
-                    borderRadius: "16px",
-                    border: "1px solid #e2e8f0",
+                    background:
+                      "linear-gradient(135deg, rgba(187, 162, 160, 0.08) 0%, rgba(187, 162, 160, 0.03) 100%)",
+                    padding: "18px 20px",
+                    borderRadius: "18px",
+                    border: "1px solid rgba(187, 162, 160, 0.15)",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
                   <div
                     style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "2px",
+                      background:
+                        "linear-gradient(90deg, #BBA2A0 0%, rgba(187, 162, 160, 0.3) 100%)",
+                    }}
+                  />
+                  <div
+                    style={{
                       fontSize: "12px",
-                      fontWeight: "600",
-                      color: "#64748b",
+                      fontWeight: "700",
+                      color: "#BBA2A0",
                       textTransform: "uppercase",
-                      letterSpacing: "0.5px",
-                      marginBottom: "6px",
+                      letterSpacing: "1px",
+                      marginBottom: "8px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
+                    <span style={{ fontSize: "14px" }}>✂️</span>
                     Servicio solicitado
                   </div>
                   <div
                     style={{
-                      fontSize: "17px",
-                      fontWeight: "700",
-                      color: "#222",
+                      fontSize: "18px",
+                      fontWeight: "800",
+                      color: "#2a2a2a",
                       display: "flex",
                       alignItems: "center",
                       gap: "8px",
@@ -869,16 +982,20 @@ export function VerTurnos() {
                       overflow: "hidden",
                       whiteSpace: "normal",
                       wordBreak: "break-word",
+                      lineHeight: "1.3",
                     }}
                   >
-                    <span></span>
                     <span
                       style={{
                         overflow: "hidden",
                         whiteSpace: "normal",
                         wordBreak: "break-word",
-                        display: "inline-block",
-                        maxWidth: "160px",
+                        display: "block",
+                        background:
+                          "linear-gradient(135deg, #BBA2A0 0%, #A08E8D 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
                       }}
                     >
                       {turno.servicio}
@@ -903,7 +1020,7 @@ export function VerTurnos() {
           100% { transform: rotate(360deg); }
         }
         .swal-btn-confirm {
-          background: #ef4444 !important;
+          background: #BBA2A0 !important;
           color: #fff !important;
           border: none !important;
           border-radius: 8px !important;
@@ -912,11 +1029,11 @@ export function VerTurnos() {
           padding: 10px 28px !important;
           margin: 0 8px !important;
           cursor: pointer !important;
-          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+          box-shadow: 0 2px 8px rgba(187, 162, 160, 0.3);
           transition: background 0.2s;
         }
         .swal-btn-confirm:hover {
-          background: #dc2626 !important;
+          background: #A08E8D !important;
         }
         .swal-btn-cancel {
           background: #f1f5f9 !important;
@@ -933,6 +1050,17 @@ export function VerTurnos() {
         }
         .swal-btn-cancel:hover {
           background: #e2e8f0 !important;
+        }
+        .swal-warning-icon {
+          border-color: #BBA2A0 !important;
+          color: #BBA2A0 !important;
+        }
+        .swal2-icon.swal2-warning {
+          border-color: #BBA2A0 !important;
+          color: #BBA2A0 !important;
+        }
+        .swal2-icon.swal2-warning .swal2-icon-content {
+          color: #BBA2A0 !important;
         }
       `}</style>
       </div>
