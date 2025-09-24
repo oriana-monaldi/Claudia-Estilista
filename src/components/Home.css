@@ -1,0 +1,103 @@
+/* Home Component Styles - Forced Black Buttons */
+.home-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.home-card {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 20px;
+  box-shadow: none;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  transform: none;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-button {
+  width: 100% !important;
+  padding: 18px 24px !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  border-radius: 16px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  text-transform: none !important;
+  letter-spacing: 0.5px !important;
+}
+
+.home-button:hover {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+}
+
+.home-button:focus {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  outline: none !important;
+}
+
+.home-button:active {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+/* Override any other button styles */
+button.home-button {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+button.home-button:hover {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}

@@ -13,8 +13,9 @@ import { ConsultaCliente } from "../../types.consulta";
 
 const COLLECTION_NAME = "consultas";
 
-// Agregar una nueva consulta
-export const addConsulta = async (consulta: Omit<ConsultaCliente, "id">): Promise<string> => {
+export const addConsulta = async (
+  consulta: Omit<ConsultaCliente, "id">
+): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, COLLECTION_NAME), consulta);
     console.log("Consulta agregada con ID: ", docRef.id);
@@ -25,20 +26,19 @@ export const addConsulta = async (consulta: Omit<ConsultaCliente, "id">): Promis
   }
 };
 
-// Obtener todas las consultas
 export const getConsultas = async (): Promise<ConsultaCliente[]> => {
   try {
     const q = query(collection(db, COLLECTION_NAME), orderBy("nombreCompleto"));
     const querySnapshot = await getDocs(q);
     const consultas: ConsultaCliente[] = [];
-    
+
     querySnapshot.forEach((doc) => {
       consultas.push({
         id: doc.id,
         ...doc.data(),
       } as ConsultaCliente);
     });
-    
+
     return consultas;
   } catch (error) {
     console.error("Error obteniendo consultas: ", error);
@@ -46,8 +46,10 @@ export const getConsultas = async (): Promise<ConsultaCliente[]> => {
   }
 };
 
-// Actualizar una consulta existente
-export const updateConsulta = async (id: string, consulta: Partial<Omit<ConsultaCliente, "id">>): Promise<void> => {
+export const updateConsulta = async (
+  id: string,
+  consulta: Partial<Omit<ConsultaCliente, "id">>
+): Promise<void> => {
   try {
     const consultaRef = doc(db, COLLECTION_NAME, id);
     await updateDoc(consultaRef, consulta);
@@ -58,7 +60,6 @@ export const updateConsulta = async (id: string, consulta: Partial<Omit<Consulta
   }
 };
 
-// Eliminar una consulta
 export const deleteConsulta = async (id: string): Promise<void> => {
   try {
     await deleteDoc(doc(db, COLLECTION_NAME, id));
@@ -70,7 +71,9 @@ export const deleteConsulta = async (id: string): Promise<void> => {
 };
 
 // Buscar consultas por nombre
-export const searchConsultasByNombre = async (nombre: string): Promise<ConsultaCliente[]> => {
+export const searchConsultasByNombre = async (
+  nombre: string
+): Promise<ConsultaCliente[]> => {
   try {
     const consultas = await getConsultas();
     return consultas.filter((consulta) =>

@@ -1,7 +1,6 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
@@ -10,34 +9,44 @@ const Home: React.FC = () => {
 
   const containerStyle = {
     minHeight: "100vh",
+    width: "100vw",
     background: "#000",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "12px 8px 0 8px",
+    padding: "20px",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     overflowX: "hidden" as "hidden",
+    boxSizing: "border-box" as "border-box",
+    margin: "0",
+    position: "fixed" as "fixed",
+    top: "0",
+    left: "0",
   };
 
   const cardStyle = {
     backgroundColor: "transparent",
     borderRadius: 0,
-    padding: 0,
+    padding: "20px",
     boxShadow: "none",
     textAlign: "center" as const,
-    maxWidth: "380px",
+    maxWidth: "420px",
     width: "100%",
     margin: "0 auto",
     transform: "none",
     transition: "all 0.3s ease",
+    display: "flex",
+    flexDirection: "column" as const,
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   const titleStyle = {
     fontSize: "32px",
     fontWeight: "800",
     margin: "0 0 16px 0",
-    color: "#000",
+    color: "#fff",
     lineHeight: "1.2",
   };
 
@@ -47,31 +56,31 @@ const Home: React.FC = () => {
     gap: "16px",
   };
 
-  const getButtonStyle = (buttonType: string) => ({
+  const baseButtonStyle = {
     width: "100%",
     padding: "18px 24px",
-    backgroundColor: "#000",
-    color: "#fff",
     border: "2px solid #fff",
-    borderRadius: "16px",
+    borderRadius: "8px",
     fontSize: "16px",
     fontWeight: "700",
     cursor: "pointer",
     transition: "all 0.2s ease",
-    boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     gap: "12px",
     textTransform: "none" as const,
     letterSpacing: "0.5px",
+    background: "#000",
+    color: "#fff",
+  };
+
+  const getButtonStyle = (buttonType: string) => ({
+    ...baseButtonStyle,
+    background: hoveredButton === buttonType ? "#fff" : "#000",
+    color: hoveredButton === buttonType ? "#000" : "#fff",
     transform:
       hoveredButton === buttonType ? "translateY(-2px)" : "translateY(0)",
-    ...(hoveredButton === buttonType && {
-      backgroundColor: "#222",
-      color: "#fff",
-      boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
-    }),
   });
 
   return (
@@ -98,7 +107,6 @@ const Home: React.FC = () => {
               border: "none",
             }}
           />
-          <h1 style={{ ...titleStyle, textAlign: "center" }}>TURNOS</h1>
         </div>
         <div style={buttonContainerStyle}>
           <button
@@ -118,14 +126,14 @@ const Home: React.FC = () => {
           >
             AÑADIR NUEVO TURNO
           </button>
-          
+
           <button
-            style={getButtonStyle("add")}
+            style={getButtonStyle("consultas")}
             onClick={() => navigate("/consultas")}
-            onMouseEnter={() => setHoveredButton("add")}
+            onMouseEnter={() => setHoveredButton("consultas")}
             onMouseLeave={() => setHoveredButton(null)}
-          >   
-          CONSULTAS          
+          >
+            CONSULTAS
           </button>
         </div>
       </div>
