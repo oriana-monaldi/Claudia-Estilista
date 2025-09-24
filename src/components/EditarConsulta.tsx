@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getConsultas,
   updateConsulta,
-} from "../assets/utils/localStorageConsultas";
+} from "../assets/utils/firestoreConsultas";
 import { ConsultaCliente } from "../types.consulta";
 
 const initialForm: Omit<ConsultaCliente, "id"> = {
@@ -20,16 +20,24 @@ export default function EditarConsulta() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      const consulta = getConsultas().find((c) => c.id === id);
-      if (consulta) {
-        setForm({
-          nombreCompleto: consulta.nombreCompleto,
-          colorTintura: consulta.colorTintura,
-          notaAdicional: consulta.notaAdicional,
-        });
+    const loadConsulta = async () => {
+      if (id) {
+        try {
+          const consultas = await getConsultas();
+          const consulta = consultas.find((c) => c.id === id);
+          if (consulta) {
+            setForm({
+              nombreCompleto: consulta.nombreCompleto,
+              colorTintura: consulta.colorTintura,
+              notaAdicional: consulta.notaAdicional,
+            });
+          }
+        } catch (error) {
+          console.error("Error cargando consulta:", error);
+        }
       }
-    }
+    };
+    loadConsulta();
   }, [id]);
 
   const handleChange = (
@@ -38,12 +46,17 @@ export default function EditarConsulta() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     if (id) {
-      updateConsulta(id, form);
-      navigate("/consultas");
+      try {
+        await updateConsulta(id, form);
+        navigate("/consultas");
+      } catch (error) {
+        console.error("Error actualizando consulta:", error);
+        alert("Error al actualizar la consulta. Intenta nuevamente.");
+      }
     }
     setLoading(false);
   };

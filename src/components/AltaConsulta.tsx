@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { addConsulta } from "../assets/utils/localStorageConsultas";
+import { addConsulta } from "../assets/utils/firestoreConsultas";
 import { ConsultaCliente } from "../types.consulta";
 
 const initialForm: Omit<ConsultaCliente, "id"> = {
@@ -82,16 +82,26 @@ export default function AltaConsulta() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addConsulta(form);
-    Swal.fire({
-      title: "Consulta registrada!",
-      icon: "success",
-      timer: 1200,
-      showConfirmButton: false,
-    });
-    navigate("/consultas");
+    try {
+      await addConsulta(form);
+      Swal.fire({
+        title: "Consulta registrada!",
+        icon: "success",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+      navigate("/consultas");
+    } catch (error) {
+      console.error("Error al registrar consulta:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo registrar la consulta. Intenta nuevamente.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   return (

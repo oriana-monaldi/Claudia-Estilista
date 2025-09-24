@@ -7,7 +7,7 @@ import {
   addConsulta,
   updateConsulta,
   deleteConsulta,
-} from "../assets/utils/localStorageConsultas";
+} from "../assets/utils/firestoreConsultas";
 import { ConsultaCliente } from "../types.consulta";
 import { HeaderBar } from "./HeaderBar";
 
@@ -27,10 +27,24 @@ export default function Consultas() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    const data = getConsultas();
-    setConsultas(data);
-    setLoading(false);
+    const loadConsultas = async () => {
+      setLoading(true);
+      try {
+        const data = await getConsultas();
+        setConsultas(data);
+      } catch (error) {
+        console.error("Error cargando consultas:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudieron cargar las consultas",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadConsultas();
   }, []);
 
   const consultasFiltradas = consultas.filter((c) =>
@@ -43,19 +57,37 @@ export default function Consultas() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (editId) {
-      updateConsulta(editId, form);
-    } else {
-      addConsulta(form);
+    try {
+      if (editId) {
+        await updateConsulta(editId, form);
+      } else {
+        await addConsulta(form);
+      }
+      const data = await getConsultas();
+      setConsultas(data);
+      setShowForm(false);
+      setEditId(null);
+      setForm(initialForm);
+      Swal.fire({
+        title: editId ? "Consulta actualizada!" : "Consulta registrada!",
+        icon: "success",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error al guardar consulta:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo guardar la consulta. Intenta nuevamente.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setLoading(false);
     }
-    setConsultas(getConsultas());
-    setShowForm(false);
-    setEditId(null);
-    setForm(initialForm);
-    setLoading(false);
   };
 
   const handleEdit = (c: ConsultaCliente) => {
@@ -82,15 +114,26 @@ export default function Consultas() {
     });
 
     if (result.isConfirmed) {
-      deleteConsulta(id);
-      setConsultas(getConsultas());
-      await swalWithCustomButtons.fire({
-        title: "¡Eliminado!",
-        text: "La consulta ha sido eliminada.",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      try {
+        await deleteConsulta(id);
+        const data = await getConsultas();
+        setConsultas(data);
+        await swalWithCustomButtons.fire({
+          title: "¡Eliminado!",
+          text: "La consulta ha sido eliminada.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error("Error eliminando consulta:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudo eliminar la consulta. Intenta nuevamente.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
@@ -101,6 +144,8 @@ export default function Consultas() {
         margin: "0 auto",
         padding: 16,
         position: "relative",
+        height: "100vh",
+        overflowY: "auto",
       }}
     >
       <button
@@ -160,58 +205,265 @@ export default function Consultas() {
                 <div
                   key={c.id}
                   style={{
-                    background: "#fff",
-                    borderRadius: 12,
-                    boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-                    padding: 16,
+                    background:
+                      "linear-gradient(135deg, #ffffff 0%, #fefefe 100%)",
+                    padding: "24px 20px",
+                    borderRadius: "20px",
+                    boxShadow:
+                      "0 8px 32px rgba(187, 162, 160, 0.12), 0 2px 8px rgba(0,0,0,0.08)",
+                    border: "1px solid rgba(187, 162, 160, 0.15)",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    marginBottom: 4,
                     position: "relative",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={(e) => {
+                    const target = e.currentTarget as HTMLDivElement;
+                    target.style.transform = "translateY(-4px)";
+                    target.style.boxShadow =
+                      "0 12px 48px rgba(187, 162, 160, 0.18), 0 4px 16px rgba(0,0,0,0.12)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.currentTarget as HTMLDivElement;
+                    target.style.transform = "translateY(0px)";
+                    target.style.boxShadow =
+                      "0 8px 32px rgba(187, 162, 160, 0.12), 0 2px 8px rgba(0,0,0,0.08)";
                   }}
                 >
+                  {/* Decoración superior */}
                   <div
-                    style={{ fontWeight: 700, fontSize: 18, color: "#3b82f6" }}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "4px",
+                      background: `linear-gradient(90deg, #BBA2A0 0%, rgba(187, 162, 160, 0.7) 50%, #BBA2A0 100%)`,
+                      borderRadius: "20px 20px 0 0",
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      marginBottom: "20px",
+                      gap: "12px",
+                    }}
                   >
-                    {c.nombreCompleto}
-                  </div>
-                  <div style={{ fontSize: 15, color: "#333" }}>
-                    <b>Color de tintura:</b>{" "}
-                    {c.colorTintura || (
-                      <span style={{ color: "#bbb" }}>Sin especificar</span>
-                    )}
-                  </div>
-                  {c.notaAdicional && (
-                    <div style={{ fontSize: 14, color: "#666" }}>
-                      <b>Nota:</b> {c.notaAdicional}
+                    <div style={{ flex: "1" }}>
+                      <h3
+                        style={{
+                          fontSize: "22px",
+                          fontWeight: "800",
+                          color: "#1a1a1a",
+                          margin: "0 0 4px 0",
+                          lineHeight: "1.2",
+                          overflow: "hidden",
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                          background:
+                            "linear-gradient(135deg, #BBA2A0 0%, #A08E8D 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
+                      >
+                        {c.nombreCompleto}
+                      </h3>
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "2px",
+                          background:
+                            "linear-gradient(90deg, #BBA2A0, rgba(187, 162, 160, 0.3))",
+                          borderRadius: "1px",
+                          marginBottom: "12px",
+                        }}
+                      />
                     </div>
-                  )}
-                  <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
-                    <button
-                      onClick={() => handleEdit(c)}
+
+                    {/* Botones de acción */}
+                    <div
                       style={{
-                        background: "#3b82f6",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: 6,
-                        padding: "6px 16px",
-                        cursor: "pointer",
-                        fontWeight: 600,
+                        display: "flex",
+                        gap: "8px",
+                        alignItems: "flex-start",
+                        marginTop: "2px",
                       }}
                     >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(c.id)}
+                      {/* Editar */}
+                      <button
+                        onClick={() => handleEdit(c)}
+                        style={{
+                          height: "38px",
+                          width: "38px",
+                          background: "rgba(187, 162, 160, 0.15)",
+                          color: "#BBA2A0",
+                          border: "none",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
+                          boxShadow: "0 2px 8px rgba(187, 162, 160, 0.08)",
+                          fontSize: "17px",
+                          cursor: "pointer",
+                          outline: "none",
+                        }}
+                        onMouseEnter={(e) => {
+                          const target = e.target as HTMLButtonElement;
+                          target.style.background = "#BBA2A0";
+                          target.style.color = "#fff";
+                        }}
+                        onMouseLeave={(e) => {
+                          const target = e.target as HTMLButtonElement;
+                          target.style.background = "rgba(187, 162, 160, 0.15)";
+                          target.style.color = "#BBA2A0";
+                        }}
+                        aria-label="Editar consulta"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+                        </svg>
+                      </button>
+
+                      {/* Eliminar */}
+                      <button
+                        onClick={() => handleDelete(c.id)}
+                        style={{
+                          height: "38px",
+                          width: "38px",
+                          background: "rgba(187, 162, 160, 0.15)",
+                          color: "#BBA2A0",
+                          border: "none",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          transition: "all 0.18s cubic-bezier(.4,1.3,.6,1)",
+                          boxShadow: "0 2px 8px rgba(187, 162, 160, 0.08)",
+                          fontSize: "17px",
+                          cursor: "pointer",
+                          outline: "none",
+                        }}
+                        onMouseEnter={(e) => {
+                          const target = e.target as HTMLButtonElement;
+                          target.style.background = "#BBA2A0";
+                          target.style.color = "#fff";
+                        }}
+                        onMouseLeave={(e) => {
+                          const target = e.target as HTMLButtonElement;
+                          target.style.background = "rgba(187, 162, 160, 0.15)";
+                          target.style.color = "#BBA2A0";
+                        }}
+                        aria-label="Eliminar consulta"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="3,6 5,6 21,6" />
+                          <path d="m19,6v14a2,2 0 0 1 -2,2H7a2,2 0 0 1 -2,-2V6m3,0V4a2,2 0 0 1 2,-2h4a2,2 0 0 1 2,2v2" />
+                          <line x1="10" y1="11" x2="10" y2="17" />
+                          <line x1="14" y1="11" x2="14" y2="17" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: "16px" }}>
+                    <div
                       style={{
-                        background: "#c00",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: 6,
-                        padding: "6px 16px",
-                        cursor: "pointer",
-                        fontWeight: 600,
+                        marginBottom: "12px",
+                        padding: "12px 16px",
+                        backgroundColor: "rgba(187, 162, 160, 0.08)",
+                        borderRadius: "12px",
+                        border: "1px solid rgba(187, 162, 160, 0.15)",
                       }}
                     >
-                      Eliminar
-                    </button>
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "600",
+                          color: "#666",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        Color de tintura:
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          color: c.colorTintura ? "#2d3748" : "#a0aec0",
+                          wordBreak: "break-word",
+                          overflowWrap: "break-word",
+                          hyphens: "auto",
+                          lineHeight: "1.4",
+                        }}
+                      >
+                        {c.colorTintura || "Sin especificar"}
+                      </div>
+                    </div>
+
+                    {c.notaAdicional && (
+                      <div
+                        style={{
+                          padding: "12px 16px",
+                          backgroundColor: "rgba(187, 162, 160, 0.05)",
+                          borderRadius: "12px",
+                          border: "1px solid rgba(187, 162, 160, 0.1)",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "600",
+                            color: "#666",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                            marginBottom: "6px",
+                          }}
+                        >
+                          Nota adicional:
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "15px",
+                            color: "#4a5568",
+                            lineHeight: "1.5",
+                            wordBreak: "break-word",
+                            overflowWrap: "break-word",
+                            hyphens: "auto",
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
+                          {c.notaAdicional}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
