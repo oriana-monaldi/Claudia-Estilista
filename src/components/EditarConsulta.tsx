@@ -16,7 +16,6 @@ export default function EditarConsulta() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [form, setForm] = useState(initialForm);
-  // ...existing code...
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -159,19 +158,21 @@ export default function EditarConsulta() {
           />
           <button
             type="submit"
+            disabled={loading}
             style={{
               width: "100%",
-              background: "#BBA2A0",
+              background: loading ? "#ccc" : "#BBA2A0",
               color: "#fff",
               fontWeight: 700,
               padding: "12px 0",
               border: "none",
               borderRadius: 8,
               fontSize: 18,
-              cursor: "pointer",
+              cursor: loading ? "not-allowed" : "pointer",
+              opacity: loading ? 0.7 : 1,
             }}
           >
-            Guardar cambios
+            {loading ? "Guardando..." : "Guardar cambios"}
           </button>
           <button
             type="button"
