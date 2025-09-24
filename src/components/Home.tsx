@@ -50,18 +50,15 @@ const Home: React.FC = () => {
   const getButtonStyle = (buttonType: string) => ({
     width: "100%",
     padding: "18px 24px",
-    backgroundColor: buttonType === "ver" ? "#000" : "#fff",
-    color: buttonType === "ver" ? "#fff" : "#000",
-    border: buttonType === "ver" ? "2px solid #fff" : "2px solid #000",
+    backgroundColor: "#000",
+    color: "#fff",
+    border: "2px solid #fff",
     borderRadius: "16px",
     fontSize: "16px",
     fontWeight: "700",
     cursor: "pointer",
     transition: "all 0.2s ease",
-    boxShadow:
-      buttonType === "ver"
-        ? "0 4px 16px rgba(0,0,0,0.15)"
-        : "0 4px 16px rgba(0,0,0,0.08)",
+    boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -71,12 +68,9 @@ const Home: React.FC = () => {
     transform:
       hoveredButton === buttonType ? "translateY(-2px)" : "translateY(0)",
     ...(hoveredButton === buttonType && {
-      backgroundColor: buttonType === "ver" ? "#222" : "#e1e5e9",
-      color: buttonType === "ver" ? "#fff" : "#000",
-      boxShadow:
-        buttonType === "ver"
-          ? "0 8px 24px rgba(0,0,0,0.18)"
-          : "0 8px 24px rgba(0,0,0,0.10)",
+      backgroundColor: "#222",
+      color: "#fff",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
     }),
   });
 
