@@ -42,14 +42,6 @@ const Home: React.FC = () => {
     justifyContent: "center",
   };
 
-  const titleStyle = {
-    fontSize: "32px",
-    fontWeight: "800",
-    margin: "0 0 16px 0",
-    color: "#fff",
-    lineHeight: "1.2",
-  };
-
   const buttonContainerStyle = {
     display: "flex",
     flexDirection: "column" as const,

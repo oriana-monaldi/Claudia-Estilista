@@ -1,16 +1,16 @@
 // firebase.ts - Configuración completa y corregida
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"; // ← IMPORTANTE: Agregar esta línea
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
+// Your web app's Firebase configuration using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyBtcmAYEoxShrHQ9trXlf9Xr4-0tPR7cV0",
-  authDomain: "claudia-estilista.firebaseapp.com",
-  projectId: "claudia-estilista",
-  storageBucket: "claudia-estilista.firebasestorage.app",
-  messagingSenderId: "1064487418488",
-  appId: "1:1064487418488:web:0ecb9793415dba46ce0b8d",
-  measurementId: "G-TL550EF243"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
