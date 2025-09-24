@@ -50,7 +50,7 @@ const Home: React.FC = () => {
 
   const baseButtonStyle = {
     width: "100%",
-    padding: "18px 24px",
+    padding: "18px 22px",
     border: "2px solid #fff",
     borderRadius: "8px",
     fontSize: "16px",
