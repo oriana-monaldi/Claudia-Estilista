@@ -376,18 +376,26 @@ export function VerTurnos() {
             }}
           />
           <style>{`
+          .react-datepicker__day { position: relative; background: #fff !important; color: #222 !important; }
           .react-datepicker__day--today-highlight {
-            background: #222 !important;
+            background: transparent !important;
+            color: #BBA2A0 !important;
+            border: 2px solid #BBA2A0 !important;
+            border-radius: 50% !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px rgba(187,162,160,0.12) !important;
+            transition: all 0.15s ease;
+          }
+          .react-datepicker__day--today-highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(187,162,160,0.16) !important;
+          }
+          /* Removed small indicator dot to avoid overlapping the number */
+          .react-datepicker__day--selected {
+            background: #BBA2A0 !important;
             color: #fff !important;
             border-radius: 50% !important;
-          }
-          .react-datepicker__day {
-            background: #fff !important;
-            color: #222 !important;
-          }
-          .react-datepicker__day--selected {
-            background: #222 !important;
-            color: #fff !important;
+            box-shadow: 0 6px 20px rgba(187,162,160,0.18) !important;
           }
           .react-datepicker__header {
             background: #fff !important;
