@@ -238,9 +238,34 @@ export function VerTurnos() {
             />
           </svg>
         </button>
-        <HeaderBar>
-          <span style={{ fontSize: 16 }}>✂️ {getTituloFiltro()}</span>
-        </HeaderBar>
+        <div style={{ position: "relative" }}>
+          <HeaderBar>
+            <span style={{ fontSize: 16 }}>✂️ {getTituloFiltro()}</span>
+          </HeaderBar>
+          <button
+            onClick={() => navigate("/alta-turno")}
+            aria-label="Nuevo turno"
+            style={{
+              position: "fixed",
+              right: 20,
+              bottom: 24,
+              width: 56,
+              height: 56,
+              borderRadius: 999,
+              border: "none",
+              background: "#BBA2A0",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 10px 30px rgba(2,6,23,0.12)",
+              cursor: "pointer",
+              zIndex: 1200,
+            }}
+          >
+            <span style={{ fontSize: 26, lineHeight: 1, fontWeight: 700 }}>+</span>
+          </button>
+        </div>
         <p
           style={{
             fontSize: "14px",
