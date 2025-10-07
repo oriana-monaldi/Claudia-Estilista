@@ -175,15 +175,13 @@ export function VerTurnos() {
   return (
     <div
       style={{
-        width: "100vw",
-        minHeight: "100vh",
+        width: "100%",
         background: "#fff",
         overflowY: "auto",
-        maxHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-        padding: "0",
+        padding: "24px 0",
       }}
     >
       <div
@@ -191,12 +189,16 @@ export function VerTurnos() {
           padding: "16px",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          maxWidth: "400px",
+          maxWidth: "420px",
           width: "100%",
           background: "#fff",
-          minHeight: "100vh",
+          minHeight: "auto",
           position: "relative",
           boxSizing: "border-box",
+          margin: "0 16px",
+          // make this container scrollable if content overflows the viewport
+          height: "calc(100vh - 120px)",
+          overflowY: "auto",
         }}
       >
         <button
