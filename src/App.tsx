@@ -121,6 +121,65 @@ function App() {
           overflow-y: hidden !important;
         }
       `}</style>
+        <style>{`
+          .swal-btn-confirm {
+            background: #BBA2A0 !important;
+            color: #fff !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            padding: 10px 28px !important;
+            margin: 0 8px !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 8px rgba(187, 162, 160, 0.3);
+            transition: background 0.2s;
+          }
+          .swal-btn-confirm:hover { background: #A08E8D !important; }
+          .swal-btn-cancel {
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            padding: 10px 28px !important;
+            margin: 0 8px !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 8px rgba(100, 116, 139, 0.1);
+            transition: background 0.2s;
+          }
+          .swal-btn-cancel:hover { background: #e2e8f0 !important; }
+          .swal-warning-icon { border-color: #BBA2A0 !important; color: #BBA2A0 !important; }
+          .swal2-icon.swal2-warning { border-color: #BBA2A0 !important; color: #BBA2A0 !important; }
+          .swal2-icon.swal2-warning .swal2-icon-content { color: #BBA2A0 !important; }
+          /* Success popup improvements */
+          .swal2-popup {
+            border-radius: 12px !important;
+            box-shadow: 0 12px 40px rgba(2,6,23,0.08) !important;
+            padding: 20px !important;
+          }
+          .swal2-title {
+            font-weight: 800 !important;
+            font-size: 18px !important;
+            color: #0f172a !important; /* darker */
+          }
+          .swal2-html-container {
+            color: #475569 !important;
+            font-size: 14px !important;
+          }
+          .swal2-icon.swal2-success {
+            border-color: #34D399 !important;
+            color: #34D399 !important;
+          }
+          .swal2-icon.swal2-success .swal2-success-line-tip,
+          .swal2-icon.swal2-success .swal2-success-line-long {
+            background: #34D399 !important;
+          }
+          .swal2-icon.swal2-success .swal2-success-ring {
+            stroke: rgba(52,211,153,0.16) !important;
+          }
+        `}</style>
       <style>{estilosInputs}</style>
       <div
         style={{

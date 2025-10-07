@@ -99,13 +99,14 @@ export default function Consultas() {
       customClass: {
         confirmButton: "swal-btn-confirm",
         cancelButton: "swal-btn-cancel",
+        icon: "swal-warning-icon",
       },
       buttonsStyling: false,
     });
 
     const result = await swalWithCustomButtons.fire({
       title: "¿Está seguro que desea eliminar la nota?",
-      text: "¡No podrás revertir esto",
+      text: "¡No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
@@ -123,7 +124,8 @@ export default function Consultas() {
           text: "La consulta ha sido eliminada.",
           icon: "success",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 2100,
+          timerProgressBar: true,
         });
       } catch (error) {
         console.error("Error eliminando consulta:", error);
@@ -134,6 +136,15 @@ export default function Consultas() {
           confirmButtonText: "OK",
         });
       }
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      await swalWithCustomButtons.fire({
+        title: "Cancelado",
+        text: "La consulta NO se ha eliminado",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2100,
+        timerProgressBar: true,
+      });
     }
   };
 

@@ -163,9 +163,10 @@ export function AltaTurno({ onTurnoRegistrado }: Props) {
         width: "100vw",
         background: "#fff",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        padding: "32px 0",
+        padding: "24px 0",
+        paddingTop: "40px",
       }}
     >
       <div style={containerStyle}>

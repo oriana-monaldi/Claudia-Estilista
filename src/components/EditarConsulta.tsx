@@ -60,26 +60,87 @@ export default function EditarConsulta() {
     setLoading(false);
   };
 
+  const inputStyle = {
+    width: "100%",
+    padding: "14px 16px",
+    marginBottom: "16px",
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: "#e1e5e9",
+    borderRadius: "12px",
+    fontSize: "16px",
+    fontFamily: "inherit",
+    backgroundColor: "#fff",
+    transition: "all 0.2s ease",
+    outline: "none",
+    boxSizing: "border-box" as const,
+  };
+
+  const inputFocusStyle = {
+    borderColor: "#BBA2A0",
+    boxShadow: "0 0 0 3px rgba(187, 162, 160, 0.1)",
+  };
+
+  const containerStyle = {
+    width: "100%",
+    maxWidth: "400px",
+    margin: "0 auto",
+    padding: "24px",
+    backgroundColor: "#fff",
+    borderRadius: "16px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    boxSizing: "border-box" as const,
+    zIndex: 2,
+  };
+
+  const buttonStyle = {
+    width: "100%",
+    padding: "16px",
+    backgroundColor: "#BBA2A0",
+    color: "white",
+    border: "none",
+    borderRadius: "12px",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    marginTop: "8px",
+    boxShadow: "0 4px 12px rgba(187, 162, 160, 0.3)",
+  };
+
+  const buttonHoverStyle = {
+    backgroundColor: "#A08E8D",
+    transform: "translateY(-1px)",
+    boxShadow: "0 6px 16px rgba(187, 162, 160, 0.4)",
+  };
+
+  const labelStyle = {
+    display: "block",
+    marginBottom: "6px",
+    fontSize: "14px",
+    fontWeight: "500",
+    color: "#4a5568",
+  };
+
+  const [focusedInput, setFocusedInput] = useState<string | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
     <div
       style={{
         minHeight: "100vh",
-        width: "100vw",
+        width: "100%",
         background: "#fff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "32px 0",
+        padding: "40px 20px",
+        boxSizing: "border-box",
       }}
     >
-      <div
-        style={{
-          maxWidth: 480,
-          margin: "0 auto",
-          padding: 16,
-          position: "relative",
-        }}
-      >
+      <div style={containerStyle}>
         <button
           onClick={() => navigate("/consultas")}
           style={{
@@ -127,48 +188,59 @@ export default function EditarConsulta() {
         >
           EDITAR CONSULTA
         </h2>
-        <form onSubmit={handleSubmit} style={{ marginTop: 32 }}>
-          <label>👤 Nombre y apellido</label>
+        <form onSubmit={handleSubmit}>
+          <label style={labelStyle}>👤 Nombre y apellido</label>
           <input
-            className="input-principal"
             name="nombreCompleto"
             placeholder="Nombre y apellido"
             value={form.nombreCompleto}
             onChange={handleChange}
+            onFocus={() => setFocusedInput("nombreCompleto")}
+            onBlur={() => setFocusedInput(null)}
             required
-            style={{ marginBottom: 12, width: "100%" }}
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "nombreCompleto" ? inputFocusStyle : {}),
+            }}
           />
-          <label>🎨 Color de tintura</label>
+          <label style={labelStyle}>🎨 Color de tintura</label>
           <input
-            className="input-principal"
             name="colorTintura"
             placeholder="Color de tintura"
             value={form.colorTintura}
             onChange={handleChange}
-            style={{ marginBottom: 12, width: "100%" }}
+            onFocus={() => setFocusedInput("colorTintura")}
+            onBlur={() => setFocusedInput(null)}
+            style={{
+              ...inputStyle,
+              ...(focusedInput === "colorTintura" ? inputFocusStyle : {}),
+            }}
           />
-          <label>📝 Nota adicional</label>
+          <label style={labelStyle}>📝 Nota adicional</label>
           <textarea
-            className="input-principal"
             name="notaAdicional"
             placeholder="Nota adicional"
             value={form.notaAdicional}
             onChange={handleChange}
-            style={{ marginBottom: 24, width: "100%" }}
+            onFocus={() => setFocusedInput("notaAdicional")}
+            onBlur={() => setFocusedInput(null)}
+            style={{
+              ...inputStyle,
+              minHeight: "80px",
+              resize: "vertical",
+              ...(focusedInput === "notaAdicional" ? inputFocusStyle : {}),
+            }}
           />
           <button
             type="submit"
             disabled={loading}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
             style={{
-              width: "100%",
-              background: loading ? "#ccc" : "#BBA2A0",
-              color: "#fff",
-              fontWeight: 700,
-              padding: "12px 0",
-              border: "none",
-              borderRadius: 8,
-              fontSize: 18,
-              cursor: loading ? "not-allowed" : "pointer",
+              ...buttonStyle,
+              ...(isHovering ? buttonHoverStyle : {}),
+              background: loading ? "#ccc" : buttonStyle.backgroundColor,
+              cursor: loading ? "not-allowed" : buttonStyle.cursor,
               opacity: loading ? 0.7 : 1,
             }}
           >
