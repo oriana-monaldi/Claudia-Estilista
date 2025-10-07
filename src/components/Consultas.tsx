@@ -200,13 +200,53 @@ export default function Consultas() {
         <span style={{ fontSize: 16 }}>Consultas</span>
       </HeaderBar>
       <div style={{ margin: "16px 0" }}>
-        <input
-          className="input-principal"
-          placeholder="Filtrar por nombre o apellido"
-          value={filtro}
-          onChange={(e) => setFiltro(e.target.value)}
-          style={{ width: "100%", marginBottom: 16 }}
-        />
+        <div style={{ position: "relative", marginBottom: 16 }}>
+          <input
+            className="input-principal"
+            placeholder="Filtrar por nombre o apellido"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            style={{ width: "100%", paddingRight: 44 }}
+          />
+          {filtro && (
+            <button
+              onClick={() => setFiltro("")}
+              aria-label="Limpiar búsqueda"
+              style={{
+                position: "absolute",
+                right: 10,
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+                border: "none",
+                background: "rgba(0,0,0,0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="#374151"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
         {loading ? (
           <div>Cargando...</div>
         ) : (

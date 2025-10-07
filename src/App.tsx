@@ -121,7 +121,7 @@ function App() {
           overflow-y: hidden !important;
         }
       `}</style>
-        <style>{`
+      <style>{`
           .swal-btn-confirm {
             background: #BBA2A0 !important;
             color: #fff !important;

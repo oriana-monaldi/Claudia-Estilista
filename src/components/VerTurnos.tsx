@@ -5,6 +5,7 @@ import type { Turno } from "../types";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { getTurnos, deleteTurno } from "../assets/utils/localStorageTurnos";
+import { getConsultas } from "../assets/utils/localStorageConsultas";
 import { HeaderBar } from "./HeaderBar";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
@@ -24,8 +25,15 @@ export function VerTurnos() {
     }
   };
 
+  const [consultas, setConsultas] = useState<any[]>([]);
   useEffect(() => {
     cargarTurnos();
+    try {
+      const cs = getConsultas();
+      setConsultas(Array.isArray(cs) ? cs : []);
+    } catch (e) {
+      setConsultas([]);
+    }
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -263,7 +271,9 @@ export function VerTurnos() {
               zIndex: 1200,
             }}
           >
-            <span style={{ fontSize: 26, lineHeight: 1, fontWeight: 700 }}>+</span>
+            <span style={{ fontSize: 26, lineHeight: 1, fontWeight: 700 }}>
+              +
+            </span>
           </button>
         </div>
         <p
@@ -277,28 +287,68 @@ export function VerTurnos() {
           {turnosOrdenados.length} TURNOS
         </p>
         <div style={{ margin: "16px 0" }}>
-          <input
-            type="text"
-            placeholder="Buscar por nombre o apellido"
-            value={busquedaNombre}
-            onChange={(e) => setBusquedaNombre(e.target.value)}
-            className="input-principal"
-            style={{
-              width: "100%",
-              padding: "14px 16px",
-              marginBottom: "16px",
-              borderWidth: "2px",
-              borderStyle: "solid",
-              borderColor: "#e1e5e9",
-              borderRadius: "12px",
-              fontSize: "16px",
-              fontFamily: "inherit",
-              backgroundColor: "#fff",
-              transition: "all 0.2s ease",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-          />
+          <div style={{ position: "relative", marginBottom: "16px" }}>
+            <input
+              type="text"
+              placeholder="Buscar por nombre o apellido"
+              value={busquedaNombre}
+              onChange={(e) => setBusquedaNombre(e.target.value)}
+              className="input-principal"
+              style={{
+                width: "100%",
+                padding: "14px 16px",
+                paddingRight: 44,
+                borderWidth: "2px",
+                borderStyle: "solid",
+                borderColor: "#e1e5e9",
+                borderRadius: "12px",
+                fontSize: "16px",
+                fontFamily: "inherit",
+                backgroundColor: "#fff",
+                transition: "all 0.2s ease",
+                outline: "none",
+                boxSizing: "border-box",
+              }}
+            />
+            {busquedaNombre && (
+              <button
+                onClick={() => setBusquedaNombre("")}
+                aria-label="Limpiar búsqueda"
+                style={{
+                  position: "absolute",
+                  right: 10,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: 28,
+                  height: 28,
+                  borderRadius: 14,
+                  border: "none",
+                  background: "rgba(0,0,0,0.06)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18 6L6 18M6 6l12 12"
+                    stroke="#374151"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
         <div
           style={{
@@ -800,6 +850,50 @@ export function VerTurnos() {
                         </span>
                       )}
                     </span>
+                    {(() => {
+                      // mostrar campos de consulta inline si hay coincidencia por nombre completo
+                      const normalize = (s: any) =>
+                        s && s.toString
+                          ? s.toString().trim().toLowerCase()
+                          : "";
+                      const turnoNorm = normalize(turno.nombre);
+                      const exactMatch = consultas.find((c) =>
+                        c && c.nombreCompleto
+                          ? normalize(c.nombreCompleto) === turnoNorm
+                          : false
+                      );
+                      let match = exactMatch || null;
+                      if (!match) {
+                        const turnoTokens = turnoNorm
+                          .split(/\s+/)
+                          .filter(Boolean);
+                        match =
+                          consultas.find((c) => {
+                            if (!c || !c.nombreCompleto) return false;
+                            const consultaNorm = normalize(c.nombreCompleto);
+                            return turnoTokens.every((tkn: string) =>
+                              consultaNorm.includes(tkn)
+                            );
+                          }) || null;
+                      }
+                      return match ? (
+                        <div
+                          style={{
+                            marginTop: 8,
+                            color: "#475569",
+                            fontSize: 13,
+                          }}
+                        >
+                          <div>
+                            <strong>Color de tintura:</strong>{" "}
+                            {match.colorTintura || "-"}
+                          </div>
+                          <div>
+                            <strong>Nota:</strong> {match.notaAdicional || "-"}
+                          </div>
+                        </div>
+                      ) : null;
+                    })()}
                   </div>
 
                   <div
@@ -988,12 +1082,56 @@ export function VerTurnos() {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "8px",
-                  }}
-                ></div>
+                {/* Si existe una consulta cuyo nombre completo coincide con el nombre del turno (sin case-sensitive), mostrarla */}
+                {(() => {
+                  const normalize = (s: any) =>
+                    s && s.toString ? s.toString().trim().toLowerCase() : "";
+                  const turnoNorm = normalize(turno.nombre);
+                  // first try exact full-name match
+                  const exactMatch = consultas.find((c) =>
+                    c && c.nombreCompleto
+                      ? normalize(c.nombreCompleto) === turnoNorm
+                      : false
+                  );
+                  let match = exactMatch || null;
+                  if (!match) {
+                    // fallback: token-based match (each token in turno appears in consulta name)
+                    const turnoTokens = turnoNorm.split(/\s+/).filter(Boolean);
+                    match =
+                      consultas.find((c) => {
+                        if (!c || !c.nombreCompleto) return false;
+                        const consultaNorm = normalize(c.nombreCompleto);
+                        return turnoTokens.every((tkn: string) =>
+                          consultaNorm.includes(tkn)
+                        );
+                      }) || null;
+                  }
+                  return match ? (
+                    <div
+                      style={{
+                        marginTop: 8,
+                        display: "inline-block",
+                        background: "#fff",
+                        borderRadius: 12,
+                        padding: "8px 12px",
+                        border: "1px solid rgba(187,162,160,0.18)",
+                        boxShadow: "0 4px 12px rgba(187,162,160,0.06)",
+                        color: "#374151",
+                        fontSize: 13,
+                      }}
+                    >
+                      <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                        Color:{" "}
+                        <span style={{ fontWeight: 600 }}>
+                          {match.colorTintura || "-"}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 12, color: "#6b7280" }}>
+                        Nota: {match.notaAdicional || "-"}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
               </div>
             ))}
           </div>

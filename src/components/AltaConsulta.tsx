@@ -107,13 +107,14 @@ export default function AltaConsulta() {
   return (
     <div
       style={{
-        minHeight: "100vh",
-        width: "100vw",
+        minHeight: "calc(100vh - 0px)",
+        width: "100%",
         background: "#fff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "16px 0",
+        padding: "32px 16px",
+        boxSizing: "border-box",
       }}
     >
       <div style={containerStyle}>
