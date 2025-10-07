@@ -1,21 +1,38 @@
 // firebase.ts - Configuración completa y corregida
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
 
-// Your web app's Firebase configuration using environment variables
+// Config provided by the user (hardcoded as requested)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyBtcmAYEoxShrHQ9trXlf9Xr4-0tPR7cV0",
+  authDomain: "claudia-estilista.firebaseapp.com",
+  projectId: "claudia-estilista",
+  storageBucket: "claudia-estilista.firebasestorage.app",
+  messagingSenderId: "1064487418488",
+  appId: "1:1064487418488:web:0ecb9793415dba46ce0b8d",
+  measurementId: "G-TL550EF243",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase only once. If an app already exists, reuse it.
+let app: any;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
 
-// ← IMPORTANTE: Agregar estas líneas
-export const db = getFirestore(app); // Exportar Firestore
+export const db = getFirestore(app);
+
+// Analytics is optional and only available in browser environments
+let analytics = null;
+try {
+  if (typeof window !== "undefined") {
+    analytics = getAnalytics(app);
+  }
+} catch (e) {
+  // ignore analytics errors (non-fatal)
+}
+
+export { analytics };
 export default app;
