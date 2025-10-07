@@ -13,7 +13,6 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 export function VerTurnos() {
   const cargarTurnos = async () => {
-    setLoading(true);
     try {
       const data = await getTurnos();
       setTurnos(Array.isArray(data) ? data : []);
@@ -21,8 +20,7 @@ export function VerTurnos() {
       console.error("Error al cargar turnos:", error);
       setTurnos([]);
     } finally {
-      // Esperar 1 segundo antes de ocultar el cargando
-      setTimeout(() => setLoading(false), 1000);
+      // carga completa (sin loader)
     }
   };
 
@@ -84,7 +82,7 @@ export function VerTurnos() {
   const [showReciente, setShowReciente] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [turnos, setTurnos] = useState<Turno[]>([]);
-  const [loading, setLoading] = useState(true);
+  // loading state removed; we render the view immediately
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [filtroFecha, setFiltroFecha] = useState<string>("hoy");
   const [fechaPersonalizada, setFechaPersonalizada] = useState<string>("");
@@ -171,56 +169,8 @@ export function VerTurnos() {
     return titulo;
   };
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          padding: "20px",
-          fontFamily:
-            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "60px 20px",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "50px",
-              height: "50px",
-              border: "4px solid #f1f5f9",
-              borderTop: "4px solid #000",
-              borderRadius: "50%",
-              animation: "spin 1.2s linear infinite",
-              marginBottom: "20px",
-            }}
-          ></div>
-          <p
-            style={{
-              color: "#fff",
-              fontSize: "16px",
-              margin: "0",
-              fontWeight: "500",
-            }}
-          >
-            Cargando turnos...
-          </p>
-          <style>{`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}</style>
-        </div>
-      </div>
-    );
-  }
+  // Loader removed: render the view immediately even while `loading` is true.
+  // The component will show the empty-state or the list depending on `turnos`.
 
   return (
     <div
